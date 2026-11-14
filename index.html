@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HSK 3 Flashcards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f3ee;--card:#fffdf9;--ink:#1f1b16;--muted:#7a7066;--line:#e6dfd5;
+  --accent:#c8372d;--accent-ink:#fff;--soft:#f0e9df;
+  --t1:#d63a2f;--t2:#2f9a4a;--t3:#2f6fd6;--t4:#8a3fc2;--t5:#7a7066;
+  --again:#d63a2f;--hard:#c98a1b;--good:#2f9a4a;--easy:#2f6fd6;
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 8px 24px rgba(60,40,20,.08);
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#17140f;--card:#211d17;--ink:#f3ede4;--muted:#a59a8c;--line:#3a332a;--soft:#2b261f;
+  --t1:#ff6b5e;--t2:#5fcf7a;--t3:#6fa3ff;--t4:#c58cff;--t5:#a59a8c;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.3);
+}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Noto Sans SC",system-ui,sans-serif}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left)}
+.zh{font-family:"Noto Sans SC","PingFang SC","Hiragino Sans GB",sans-serif}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+.wrap{max-width:560px;margin:0 auto;padding:16px 16px calc(96px + env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;justify-content:space-between;margin:4px 0 18px}
+header h1{font-size:22px;margin:0;font-weight:700;letter-spacing:-.01em}
+header h1 span{color:var(--accent)}
+.sync{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.dot.ok{background:var(--good)}.dot.busy{background:var(--hard)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px}
+.stat{background:var(--card);border-radius:14px;padding:12px 8px;text-align:center;box-shadow:var(--shadow)}
+.stat b{display:block;font-size:22px;font-weight:700}
+.stat small{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.panel{background:var(--card);border-radius:18px;padding:16px;box-shadow:var(--shadow);margin-bottom:14px}
+.label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:0 0 8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.chip{padding:8px 12px;border-radius:999px;background:var(--soft);font-size:14px;font-weight:500}
+.chip.on{background:var(--ink);color:var(--bg)}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--soft);border-radius:12px;padding:3px;margin-bottom:14px}
+.seg button{padding:9px 4px;border-radius:9px;font-size:13px;font-weight:500}
+.seg button.on{background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px;font-size:14px}
+select,input,textarea{font:inherit;color:var(--ink);background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%}
+select{width:auto}
+textarea{min-height:120px;resize:vertical}
+.btn{display:block;width:100%;padding:14px;border-radius:14px;font-weight:600;font-size:16px;background:var(--accent);color:var(--accent-ink);margin-top:8px}
+.btn.alt{background:var(--soft);color:var(--ink)}
+.btn:disabled{opacity:.45}
+.toggle{position:relative;width:44px;height:26px;background:var(--line);border-radius:99px;flex:none;transition:.2s}
+.toggle::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s}
+.toggle.on{background:var(--good)}.toggle.on::after{left:21px}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom);z-index:5}
+nav .in{display:grid;grid-template-columns:repeat(4,1fr);max-width:560px;width:100%}
+nav button{padding:10px 0 12px;font-size:12px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px}
+nav button .ic{font-size:20px;line-height:1}
+nav button.on{color:var(--accent);font-weight:600}
+.hidden{display:none!important}
+/* study */
+.study{position:fixed;inset:0;background:var(--bg);z-index:10;display:flex;flex-direction:column;padding:env(safe-area-inset-top) 16px calc(16px + env(safe-area-inset-bottom))}
+.study .top{max-width:560px;width:100%;margin:12px auto 10px;display:flex;align-items:center;gap:12px}
+.bar{flex:1;height:6px;background:var(--line);border-radius:9px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.count{font-size:13px;color:var(--muted);min-width:48px;text-align:right}
+.x{font-size:22px;width:36px;height:36px;border-radius:50%;background:var(--soft)}
+.stage{flex:1;max-width:560px;width:100%;margin:0 auto;display:flex;flex-direction:column;justify-content:flex-start;perspective:1200px;padding:4px 0}
+.stage{overflow-y:auto}
+.fc{position:relative;width:100%;display:grid;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.3,.7,.3,1);margin:auto 0}
+.fc.flip{transform:rotateY(180deg)}
+.face{grid-area:1/1;position:relative;min-height:340px;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border-radius:24px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 20px;text-align:center}
+.face.back{transform:rotateY(180deg)}
+.ex{margin-top:18px;padding:12px 14px;border-radius:14px;background:var(--soft);text-align:left;width:100%;display:flex;gap:10px;align-items:flex-start}
+.ex .exs{font-size:19px;line-height:1.5}
+.ex .exs b{color:var(--accent);font-weight:600}
+.ex .exp{font-size:13px;color:var(--muted);margin-top:2px}
+.ex .exe{font-size:14px;margin-top:4px}
+.ex .mini{margin-top:2px}
+.back .say{margin-top:12px}
+.badge{display:inline-block;font-size:11px;padding:2px 7px;border-radius:99px;background:var(--soft);color:var(--muted);margin-left:6px;font-weight:500;vertical-align:middle}
+.tick{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);flex:none;font-size:15px;color:#fff;display:flex;align-items:center;justify-content:center}
+.tick.on{background:var(--good);border-color:var(--good)}
+.goal{display:flex;align-items:center;gap:14px;padding:14px 16px}
+.ring{width:64px;height:64px;transform:rotate(-90deg);flex:none}
+.ring circle{fill:none;stroke-width:7}
+.ring .rb{stroke:var(--line)}
+.ring .rf{stroke:var(--good);stroke-linecap:round;stroke-dasharray:169.6;stroke-dashoffset:169.6;transition:stroke-dashoffset .5s}
+.gtxt{flex:1}.gnum{font-size:20px;font-weight:700}
+.streak{text-align:right}
+.week{display:flex;gap:4px;justify-content:flex-end;margin-top:6px}
+.week i{width:12px;height:12px;border-radius:4px;background:var(--line);display:block}
+.week i.p{background:var(--hard)}.week i.f{background:var(--good)}
+.week i.t{outline:2px solid var(--ink);outline-offset:1px}
+.grid-box{position:relative;width:240px;height:240px;margin:0 auto;background:var(--card);border-radius:16px;box-shadow:var(--shadow);flex:none}
+.grid-box::before{content:"";position:absolute;inset:0;border-radius:16px;pointer-events:none;opacity:.7;
+  background:linear-gradient(var(--line),var(--line)) center/100% 1px no-repeat,linear-gradient(var(--line),var(--line)) center/1px 100% no-repeat}
+.grid-box svg{position:relative}
+.grid-box.sm{width:200px;height:200px}
+.wbtns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.writebox{margin-top:12px}
+.wdone{font-size:30px;letter-spacing:4px;min-height:40px;margin-bottom:6px}
+.wdone .todo{color:var(--muted)}
+.lessonbar{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+.lessonbar select{flex:1}
+.tag{position:absolute;top:14px;left:16px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.lvl{position:absolute;top:14px;right:16px;font-size:11px;color:var(--muted)}
+.hz{font-size:72px;font-weight:500;line-height:1.15;word-break:keep-all}
+.hz.sm{font-size:52px}
+.py{font-size:24px;margin-top:10px;font-weight:500}
+.en{font-size:22px;margin-top:12px;line-height:1.35}
+.en.big{font-size:28px;font-weight:600;margin:0}
+.note{font-size:14px;color:var(--muted);margin-top:10px}
+.hint{font-size:13px;color:var(--muted);margin-top:22px}
+.say{margin-top:18px;width:52px;height:52px;border-radius:50%;background:var(--soft);font-size:22px}
+.say.huge{width:96px;height:96px;font-size:40px;margin:0}
+.rate{max-width:560px;width:100%;margin:14px auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;min-height:62px}
+.rate button{padding:10px 4px;border-radius:14px;color:#fff;font-weight:600;font-size:15px;display:flex;flex-direction:column;align-items:center}
+.rate button small{font-weight:400;font-size:11px;opacity:.85}
+.r-again{background:var(--again)}.r-hard{background:var(--hard)}.r-good{background:var(--good)}.r-easy{background:var(--easy)}
+.showbtn{grid-column:1/-1;background:var(--ink)!important;color:var(--bg)!important}
+.done{text-align:center}
+.done .big{font-size:64px}
+/* browse */
+.search{margin-bottom:12px}
+.list{background:var(--card);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+.item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.item .h{font-size:24px;min-width:64px}
+.item .m{flex:1;min-width:0}
+.item .m div:first-child{font-size:14px;font-weight:500}
+.item .m div:last-child{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pip{display:flex;gap:2px}
+.pip i{width:5px;height:14px;border-radius:2px;background:var(--line)}
+.pip i.f{background:var(--good)}
+.mini{width:34px;height:34px;border-radius:50%;background:var(--soft);font-size:15px;flex:none}
+.del{color:var(--again);font-size:18px;width:30px;flex:none}
+.muted{color:var(--muted);font-size:13px}
+.field{margin-bottom:10px}
+.field label{display:block;font-size:13px;font-weight:500;margin-bottom:5px}
+.preview{font-size:13px;color:var(--muted);margin-top:4px;min-height:18px}
+.toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;z-index:30;opacity:0;transition:opacity .25s;pointer-events:none}
+.toast.show{opacity:1}
+.t1{color:var(--t1)}.t2{color:var(--t2)}.t3{color:var(--t3)}.t4{color:var(--t4)}.t5{color:var(--t5)}
+.notone .t1,.notone .t2,.notone .t3,.notone .t4,.notone .t5{color:inherit}
+.more{text-align:center;padding:12px;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>HSK <span class="zh">闪卡</span></h1>
+    <div class="sync" id="sync"><span class="dot" id="syncDot"></span><span id="syncTxt">This device</span></div>
+  </header>
+
+  <!-- STUDY TAB -->
+  <section id="tab-study">
+    <div class="goal panel" id="goalPanel">
+      <svg class="ring" viewBox="0 0 64 64"><circle cx="32" cy="32" r="27" class="rb"/><circle cx="32" cy="32" r="27" class="rf" id="ringFill"/></svg>
+      <div class="gtxt"><div class="gnum" id="goalTxt">0 / 20</div><div class="muted">cards today</div></div>
+      <div class="streak"><div class="gnum" id="streakTxt">0</div><div class="muted">day streak</div><div class="week" id="week"></div></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="sDue">0</b><small>Due</small></div>
+      <div class="stat"><b id="sNew">0</b><small>New</small></div>
+      <div class="stat"><b id="sLearn">0</b><small>Learning</small></div>
+      <div class="stat"><b id="sKnown">0</b><small>Known</small></div>
+    </div>
+    <div class="panel">
+      <p class="label">Deck</p>
+      <div class="chips" id="decks"></div>
+      <p class="label">Card front</p>
+      <div class="seg" id="modes">
+        <button data-m="zh">汉字 → EN</button>
+        <button data-m="en">EN → 汉字</button>
+        <button data-m="listen">🔊 Listen</button>
+        <button data-m="write">✍️ Write</button>
+      </div>
+      <div class="row"><span>New cards per session</span>
+        <select id="newPer"><option>5</option><option>10</option><option>15</option><option>20</option><option>30</option></select></div>
+      <div class="row"><span>Daily goal (cards)</span>
+        <select id="goalSel"><option>10</option><option>20</option><option>30</option><option>50</option><option>80</option><option>100</option></select></div>
+      <div class="row"><span>Show pinyin on the front</span><button class="toggle" id="tgPy"></button></div>
+      <div class="row"><span>Tone colours</span><button class="toggle" id="tgTone"></button></div>
+      <div class="row"><span>Auto-play audio</span><button class="toggle" id="tgAuto"></button></div>
+      <div class="row"><span>Show example sentence</span><button class="toggle" id="tgEx"></button></div>
+      <div class="row" style="margin-bottom:0"><span>Pinyin under sentences</span><button class="toggle" id="tgExPy"></button></div>
+    </div>
+    <button class="btn" id="startBtn">Start review</button>
+    <button class="btn alt" id="cramBtn">Shuffle practice (whole deck)</button>
+    <p class="muted" style="text-align:center;margin-top:14px">Review = cards due today + a few new ones. Your answers schedule each card: words you know come back later, tricky ones come back sooner.</p>
+  </section>
+
+  <!-- BROWSE TAB -->
+  <section id="tab-browse" class="hidden">
+    <input class="search" id="q" placeholder="Search 汉字, pinyin or English" autocomplete="off">
+    <div class="chips" id="decks2"></div>
+    <div class="list" id="list"></div>
+    <div class="more" id="listMore"></div>
+  </section>
+
+  <!-- ADD TAB -->
+  <!-- LESSONS TAB -->
+  <section id="tab-lessons" class="hidden">
+    <div class="panel">
+      <p class="label">Match your HSK Standard Course 3 book</p>
+      <p class="muted" style="margin-top:0">Choose a lesson, then tick its new words (生词) from your book, or paste them in. Each lesson becomes its own deck on the Study tab. Lesson 1 is already set up.</p>
+      <div class="lessonbar">
+        <select id="lesSel"></select>
+        <span class="muted" id="lesCount"></span>
+      </div>
+      <textarea id="lesPaste" class="zh" style="min-height:70px" placeholder="Paste or type the lesson's words, e.g. 周末 打算 跟 一直 作业"></textarea>
+      <button class="btn" id="lesMatch">Add these words to the lesson</button>
+      <p class="muted" id="lesMsg" style="margin-bottom:0"></p>
+    </div>
+    <input class="search" id="lesQ" placeholder="Search to tick words: zhoumo, 周末, weekend" autocomplete="off">
+    <div class="chips"><button class="chip" id="lesOnly">Show only this lesson</button></div>
+    <div class="list" id="lesList"></div>
+    <div class="more" id="lesMore"></div>
+  </section>
+
+  <section id="tab-add" class="hidden">
+    <div class="panel">
+      <p class="label">Add a card</p>
+      <div class="field"><label>汉字</label><input id="aH" class="zh" placeholder="e.g. 怎么走"></div>
+      <div class="field"><label>Pinyin <span class="muted">— tone numbers work: zen3me zou3</span></label><input id="aP" placeholder="zěnme zǒu or zen3 me zou3"><div class="preview" id="aPrev"></div></div>
+      <div class="field"><label>English</label><input id="aE" placeholder="how do I get there?"></div>
+      <div class="field"><label>Deck / lesson</label><input id="aT" list="tagList" placeholder="e.g. Short-term Spoken L3"><datalist id="tagList"></datalist></div>
+      <button class="btn" id="addBtn">Add card</button>
+    </div>
+    <div class="panel">
+      <p class="label">Paste a whole lesson</p>
+      <p class="muted" style="margin-top:0">One card per line: <span class="zh">汉字</span> | pinyin | English. Tone numbers are fine.</p>
+      <textarea id="bulk" class="zh" placeholder="请问 | qing3wen4 | excuse me, may I ask&#10;多少钱 | duo1shao5 qian2 | how much is it?&#10;太贵了 | tai4 gui4 le5 | too expensive"></textarea>
+      <div class="field" style="margin-top:10px"><label>Deck / lesson</label><input id="bT" list="tagList" placeholder="e.g. Short-term Spoken L4"></div>
+      <button class="btn" id="bulkBtn">Add all</button>
+    </div>
+    <div class="panel">
+      <p class="label">Progress</p>
+      <button class="btn alt" id="copyBtn">Copy my cards as text</button>
+      <button class="btn alt" id="resetBtn">Reset learning progress…</button>
+      <div id="resetConfirm" class="hidden" style="margin-top:10px">
+        <p class="muted">This clears what you've learned (your own cards are kept).</p>
+        <button class="btn" id="resetYes" style="background:var(--again)">Yes, reset progress</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<nav><div class="in">
+  <button data-tab="study" class="on"><span class="ic">🃏</span>Study</button>
+  <button data-tab="browse"><span class="ic">📖</span>Words</button>
+  <button data-tab="lessons"><span class="ic">📚</span>Lessons</button>
+  <button data-tab="add"><span class="ic">➕</span>Add</button>
+</div></nav>
+
+<!-- WRITING PRACTICE -->
+<div class="study hidden" id="writeModal" style="z-index:20">
+  <div class="top"><button class="x" id="wmClose" aria-label="Close">×</button><div style="flex:1;font-weight:600">Writing practice</div></div>
+  <div class="stage" style="align-items:center;text-align:center">
+    <div class="zh" style="font-size:30px" id="wmWord"></div>
+    <div class="py" style="font-size:18px;margin-top:4px" id="wmPy"></div>
+    <div class="muted" id="wmEn" style="margin:4px 0 12px"></div>
+    <div class="chips" id="wmChars" style="justify-content:center"></div>
+    <div class="grid-box" id="wmBox"></div>
+    <div class="muted" id="wmMsg" style="min-height:20px;margin-top:8px"></div>
+    <div class="wbtns">
+      <button class="chip" id="wmAnim">▶ Stroke order</button>
+      <button class="chip" id="wmTrace">✏️ Trace</button>
+      <button class="chip" id="wmTest">🧠 From memory</button>
+    </div>
+  </div>
+</div>
+
+<!-- STUDY OVERLAY -->
+<div class="study hidden" id="study">
+  <div class="top">
+    <button class="x" id="quit" aria-label="Stop">×</button>
+    <div class="bar"><i id="barFill"></i></div>
+    <div class="count" id="count"></div>
+  </div>
+  <div class="stage" id="stage">
+    <div class="fc" id="fc">
+      <div class="face front" id="front"></div>
+      <div class="face back" id="back"></div>
+    </div>
+  </div>
+  <div class="rate" id="rate"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="hanzi-writer.min.js"></script>
+<script>
+/* ---------- Vocabulary: 汉字|pinyin|English|example|example pinyin|example English ---------- */
+const HSK1_RAW = `爱|ài|to love|我爱我的家。|Wǒ ài wǒ de jiā.|I love my family.
+八|bā|eight|我早上八点上班。|Wǒ zǎoshang bā diǎn shàngbān.|I start work at eight in the morning.
+爸爸|bà ba|dad|我爸爸是医生。|Wǒ bàba shì yīshēng.|My dad is a doctor.
+杯子|bēi zi|cup; glass|这个杯子是谁的？|Zhège bēizi shì shéi de?|Whose cup is this?
+北京|běi jīng|Beijing|你去过北京吗？|Nǐ qùguo Běijīng ma?|Have you been to Beijing?
+本|běn|(measure word for books)|我买了三本书。|Wǒ mǎile sān běn shū.|I bought three books.
+不|bù|not; no|我不喝咖啡。|Wǒ bù hē kāfēi.|I don't drink coffee.
+不客气|bú kè qi|you're welcome|“谢谢！”“不客气。”|“Xièxie!” “Bú kèqi.”|"Thanks!" "You're welcome."
+菜|cài|dish; vegetable|这个菜很好吃。|Zhège cài hěn hǎochī.|This dish is delicious.
+茶|chá|tea|你想喝茶吗？|Nǐ xiǎng hē chá ma?|Would you like some tea?
+吃|chī|to eat|你吃饭了吗？|Nǐ chī fàn le ma?|Have you eaten?
+出租车|chū zū chē|taxi|我们坐出租车去吧。|Wǒmen zuò chūzūchē qù ba.|Let's take a taxi.
+打电话|dǎ diàn huà|to make a phone call|晚上给我打电话。|Wǎnshang gěi wǒ dǎ diànhuà.|Call me tonight.
+大|dà|big|这个房间很大。|Zhège fángjiān hěn dà.|This room is very big.
+的|de|(possessive particle)|这是我的书。|Zhè shì wǒ de shū.|This is my book.
+点|diǎn|o'clock; a little|现在几点？|Xiànzài jǐ diǎn?|What time is it now?
+电脑|diàn nǎo|computer|我的电脑很旧。|Wǒ de diànnǎo hěn jiù.|My computer is old.
+电视|diàn shì|television|爸爸在看电视。|Bàba zài kàn diànshì.|Dad is watching TV.
+电影|diàn yǐng|movie|我们去看电影吧。|Wǒmen qù kàn diànyǐng ba.|Let's go see a movie.
+东西|dōng xi|thing; stuff|你买什么东西了？|Nǐ mǎi shénme dōngxi le?|What did you buy?
+都|dōu|all; both|我们都是学生。|Wǒmen dōu shì xuésheng.|We're all students.
+读|dú|to read; study|我女儿在读书。|Wǒ nǚ'ér zài dú shū.|My daughter is reading.
+对不起|duì bu qǐ|sorry|对不起，我来晚了。|Duìbuqǐ, wǒ lái wǎn le.|Sorry I'm late.
+多|duō|many; much|今天人很多。|Jīntiān rén hěn duō.|There are lots of people today.
+多少|duō shao|how many; how much|这个多少钱？|Zhège duōshao qián?|How much is this?
+儿子|ér zi|son|他儿子五岁了。|Tā érzi wǔ suì le.|His son is five.
+二|èr|two|今天是二月二号。|Jīntiān shì èr yuè èr hào.|Today is the 2nd of February.
+饭店|fàn diàn|restaurant; hotel|这个饭店的菜很好吃。|Zhège fàndiàn de cài hěn hǎochī.|The food at this restaurant is great.
+飞机|fēi jī|plane|我坐飞机去上海。|Wǒ zuò fēijī qù Shànghǎi.|I'm flying to Shanghai.
+分钟|fēn zhōng|minute|请等五分钟。|Qǐng děng wǔ fēnzhōng.|Please wait five minutes.
+高兴|gāo xìng|happy; glad|认识你很高兴。|Rènshi nǐ hěn gāoxìng.|Nice to meet you.
+个|gè|(general measure word)|我有一个女儿。|Wǒ yǒu yí ge nǚ'ér.|I have a daughter.
+工作|gōng zuò|work; job; to work|你在哪儿工作？|Nǐ zài nǎr gōngzuò?|Where do you work?
+狗|gǒu|dog|我家有一只狗。|Wǒ jiā yǒu yì zhī gǒu.|We have a dog.
+汉语|hàn yǔ|Chinese (language)|我在学习汉语。|Wǒ zài xuéxí Hànyǔ.|I'm learning Chinese.
+好|hǎo|good; well|你好吗？|Nǐ hǎo ma?|How are you?
+号|hào|number; day of the month|今天几号？|Jīntiān jǐ hào?|What's the date today?
+喝|hē|to drink|我想喝水。|Wǒ xiǎng hē shuǐ.|I'd like a drink of water.
+和|hé|and; with|我和妈妈去商店。|Wǒ hé māma qù shāngdiàn.|Mum and I are going to the shops.
+很|hěn|very|今天很热。|Jīntiān hěn rè.|It's very hot today.
+后面|hòu miàn|behind; at the back|学校后面有一个公园。|Xuéxiào hòumian yǒu yí ge gōngyuán.|There's a park behind the school.
+回|huí|to return; go back|我们几点回家？|Wǒmen jǐ diǎn huí jiā?|What time are we going home?
+会|huì|can; know how to; will|你会说汉语吗？|Nǐ huì shuō Hànyǔ ma?|Can you speak Chinese?
+几|jǐ|how many; a few|你有几个孩子？|Nǐ yǒu jǐ ge háizi?|How many children do you have?
+家|jiā|home; family|我家有四口人。|Wǒ jiā yǒu sì kǒu rén.|There are four people in my family.
+叫|jiào|to be called; to call|你叫什么名字？|Nǐ jiào shénme míngzi?|What's your name?
+今天|jīn tiān|today|今天星期六。|Jīntiān xīngqīliù.|Today is Saturday.
+九|jiǔ|nine|她九岁了。|Tā jiǔ suì le.|She's nine.
+开|kāi|to open; to drive|请开门。|Qǐng kāi mén.|Please open the door.
+看|kàn|to look; watch; read|你在看什么？|Nǐ zài kàn shénme?|What are you looking at?
+看见|kàn jiàn|to see|你看见我的手机了吗？|Nǐ kànjiàn wǒ de shǒujī le ma?|Have you seen my phone?
+块|kuài|yuan (spoken); piece|这个苹果三块钱。|Zhège píngguǒ sān kuài qián.|This apple is three yuan.
+来|lái|to come|你什么时候来？|Nǐ shénme shíhou lái?|When are you coming?
+老师|lǎo shī|teacher|我的汉语老师很好。|Wǒ de Hànyǔ lǎoshī hěn hǎo.|My Chinese teacher is great.
+了|le|(completed action / change)|我吃了。|Wǒ chī le.|I've eaten.
+冷|lěng|cold|今天很冷。|Jīntiān hěn lěng.|It's cold today.
+里|lǐ|in; inside|杯子里有水。|Bēizi li yǒu shuǐ.|There's water in the cup.
+六|liù|six|我六点起床。|Wǒ liù diǎn qǐchuáng.|I get up at six.
+妈妈|mā ma|mum|妈妈在做饭。|Māma zài zuò fàn.|Mum is cooking.
+吗|ma|(question particle)|你是老师吗？|Nǐ shì lǎoshī ma?|Are you a teacher?
+买|mǎi|to buy|我想买一件衣服。|Wǒ xiǎng mǎi yí jiàn yīfu.|I want to buy some clothes.
+猫|māo|cat|这只猫很漂亮。|Zhè zhī māo hěn piàoliang.|This cat is very pretty.
+没关系|méi guān xi|it doesn't matter; no problem|“对不起。”“没关系。”|“Duìbuqǐ.” “Méi guānxi.”|"Sorry." "No worries."
+没有|méi yǒu|not have; there isn't|我没有钱。|Wǒ méiyǒu qián.|I don't have any money.
+米饭|mǐ fàn|cooked rice|我想吃米饭。|Wǒ xiǎng chī mǐfàn.|I'd like some rice.
+名字|míng zi|name|你的名字很好听。|Nǐ de míngzi hěn hǎotīng.|Your name sounds lovely.
+明天|míng tiān|tomorrow|明天见！|Míngtiān jiàn!|See you tomorrow!
+哪|nǎ|which|你是哪国人？|Nǐ shì nǎ guó rén?|Which country are you from?
+哪儿|nǎr|where|你去哪儿？|Nǐ qù nǎr?|Where are you going?
+那|nà|that|那是什么？|Nà shì shénme?|What's that?
+呢|ne|(particle: and you? / ongoing)|我很好，你呢？|Wǒ hěn hǎo, nǐ ne?|I'm good, and you?
+能|néng|can; be able to|你明天能来吗？|Nǐ míngtiān néng lái ma?|Can you come tomorrow?
+你|nǐ|you|你好！|Nǐ hǎo!|Hello!
+年|nián|year|我在中国住了两年。|Wǒ zài Zhōngguó zhùle liǎng nián.|I lived in China for two years.
+女儿|nǚ ér|daughter|我女儿喜欢跳舞。|Wǒ nǚ'ér xǐhuan tiàowǔ.|My daughter loves dancing.
+朋友|péng you|friend|他是我的好朋友。|Tā shì wǒ de hǎo péngyou.|He's my good friend.
+漂亮|piào liang|pretty; beautiful|你的衣服真漂亮！|Nǐ de yīfu zhēn piàoliang!|Your outfit is so pretty!
+苹果|píng guǒ|apple|我每天吃一个苹果。|Wǒ měitiān chī yí ge píngguǒ.|I eat an apple every day.
+七|qī|seven|一个星期有七天。|Yí ge xīngqī yǒu qī tiān.|A week has seven days.
+前面|qián miàn|in front; ahead|前面有一个商店。|Qiánmian yǒu yí ge shāngdiàn.|There's a shop up ahead.
+钱|qián|money|这件衣服多少钱？|Zhè jiàn yīfu duōshao qián?|How much is this piece of clothing?
+请|qǐng|please; to invite|请坐！|Qǐng zuò!|Please sit down!
+去|qù|to go|我明天去北京。|Wǒ míngtiān qù Běijīng.|I'm going to Beijing tomorrow.
+热|rè|hot|夏天很热。|Xiàtiān hěn rè.|Summer is very hot.
+人|rén|person; people|商店里有很多人。|Shāngdiàn li yǒu hěn duō rén.|There are lots of people in the shop.
+认识|rèn shi|to know (someone); recognise|你认识他吗？|Nǐ rènshi tā ma?|Do you know him?
+三|sān|three|我有三个朋友在中国。|Wǒ yǒu sān ge péngyou zài Zhōngguó.|I have three friends in China.
+商店|shāng diàn|shop; store|商店几点开门？|Shāngdiàn jǐ diǎn kāi mén?|What time does the shop open?
+上|shàng|on; up; above; previous|书在桌子上。|Shū zài zhuōzi shang.|The book is on the table.
+上午|shàng wǔ|morning (before noon)|我上午有课。|Wǒ shàngwǔ yǒu kè.|I have class this morning.
+少|shǎo|few; little|今天人很少。|Jīntiān rén hěn shǎo.|There are very few people today.
+谁|shéi|who|他是谁？|Tā shì shéi?|Who is he?
+什么|shén me|what|你想吃什么？|Nǐ xiǎng chī shénme?|What do you want to eat?
+十|shí|ten|我女儿十岁了。|Wǒ nǚ'ér shí suì le.|My daughter is ten.
+时候|shí hou|time; moment|你什么时候回家？|Nǐ shénme shíhou huí jiā?|When are you going home?
+是|shì|to be|我是澳大利亚人。|Wǒ shì Àodàlìyà rén.|I'm Australian.
+书|shū|book|这本书很有意思。|Zhè běn shū hěn yǒu yìsi.|This book is very interesting.
+水|shuǐ|water|请给我一杯水。|Qǐng gěi wǒ yì bēi shuǐ.|A glass of water, please.
+水果|shuǐ guǒ|fruit|你喜欢吃什么水果？|Nǐ xǐhuan chī shénme shuǐguǒ?|What fruit do you like?
+睡觉|shuì jiào|to sleep; go to bed|我十一点睡觉。|Wǒ shíyī diǎn shuìjiào.|I go to bed at eleven.
+说|shuō|to speak; say|请你说慢一点儿。|Qǐng nǐ shuō màn yìdiǎnr.|Please speak a bit more slowly.
+四|sì|four|我们四个人去吃饭。|Wǒmen sì ge rén qù chī fàn.|The four of us are going out to eat.
+岁|suì|years old|你女儿几岁了？|Nǐ nǚ'ér jǐ suì le?|How old is your daughter?
+他|tā|he; him|他是我的同学。|Tā shì wǒ de tóngxué.|He's my classmate.
+她|tā|she; her|她是我的老师。|Tā shì wǒ de lǎoshī.|She's my teacher.
+太|tài|too; extremely|太好了！|Tài hǎo le!|That's great!
+天气|tiān qì|weather|今天天气怎么样？|Jīntiān tiānqì zěnmeyàng?|What's the weather like today?
+听|tīng|to listen; hear|我喜欢听音乐。|Wǒ xǐhuan tīng yīnyuè.|I like listening to music.
+同学|tóng xué|classmate|他们是我的同学。|Tāmen shì wǒ de tóngxué.|They're my classmates.
+喂|wéi|hello (on the phone)|喂，你好！|Wéi, nǐ hǎo!|Hello? (on the phone)
+我|wǒ|I; me|我是学生。|Wǒ shì xuésheng.|I'm a student.
+我们|wǒ men|we; us|我们一起去吧。|Wǒmen yìqǐ qù ba.|Let's go together.
+五|wǔ|five|我五点下班。|Wǒ wǔ diǎn xiàbān.|I finish work at five.
+喜欢|xǐ huan|to like|我喜欢喝茶。|Wǒ xǐhuan hē chá.|I like tea.
+下|xià|under; down; next|桌子下有一只猫。|Zhuōzi xià yǒu yì zhī māo.|There's a cat under the table.
+下午|xià wǔ|afternoon|下午我们去公园。|Xiàwǔ wǒmen qù gōngyuán.|We're going to the park this afternoon.
+下雨|xià yǔ|to rain|明天会下雨吗？|Míngtiān huì xià yǔ ma?|Will it rain tomorrow?
+先生|xiān sheng|Mr; sir; husband|王先生在家吗？|Wáng xiānsheng zài jiā ma?|Is Mr Wang home?
+现在|xiàn zài|now|现在几点了？|Xiànzài jǐ diǎn le?|What time is it now?
+想|xiǎng|to want; to think; to miss|我想去中国。|Wǒ xiǎng qù Zhōngguó.|I want to go to China.
+小|xiǎo|small; little|这个杯子太小了。|Zhège bēizi tài xiǎo le.|This cup is too small.
+小姐|xiǎo jiě|Miss; young lady|李小姐，你好！|Lǐ xiǎojiě, nǐ hǎo!|Hello, Miss Li!
+些|xiē|some|我买了一些水果。|Wǒ mǎile yìxiē shuǐguǒ.|I bought some fruit.
+写|xiě|to write|这个字怎么写？|Zhège zì zěnme xiě?|How do you write this character?
+谢谢|xiè xie|thank you|谢谢你的帮助！|Xièxie nǐ de bāngzhù!|Thanks for your help!
+星期|xīng qī|week|下个星期我去上海。|Xià ge xīngqī wǒ qù Shànghǎi.|I'm going to Shanghai next week.
+学生|xué sheng|student|她是大学生。|Tā shì dàxuéshēng.|She's a university student.
+学习|xué xí|to study; learn|我每天学习汉语。|Wǒ měitiān xuéxí Hànyǔ.|I study Chinese every day.
+学校|xué xiào|school|学校离我家很近。|Xuéxiào lí wǒ jiā hěn jìn.|The school is close to my home.
+一|yī|one|我有一个问题。|Wǒ yǒu yí ge wèntí.|I have a question.
+衣服|yī fu|clothes|这件衣服很漂亮。|Zhè jiàn yīfu hěn piàoliang.|This piece of clothing is very pretty.
+医生|yī shēng|doctor|我妈妈是医生。|Wǒ māma shì yīshēng.|My mum is a doctor.
+医院|yī yuàn|hospital|医院在哪儿？|Yīyuàn zài nǎr?|Where's the hospital?
+椅子|yǐ zi|chair|请坐这把椅子。|Qǐng zuò zhè bǎ yǐzi.|Please sit on this chair.
+有|yǒu|to have; there is|你有时间吗？|Nǐ yǒu shíjiān ma?|Do you have time?
+月|yuè|month; moon|我的生日在五月。|Wǒ de shēngrì zài wǔ yuè.|My birthday is in May.
+在|zài|at; in; (be) doing|我在家。|Wǒ zài jiā.|I'm at home.
+再见|zài jiàn|goodbye|再见，明天见！|Zàijiàn, míngtiān jiàn!|Bye, see you tomorrow!
+怎么|zěn me|how; why|去火车站怎么走？|Qù huǒchēzhàn zěnme zǒu?|How do I get to the train station?
+怎么样|zěn me yàng|how is it; how about|这个菜怎么样？|Zhège cài zěnmeyàng?|How's this dish?
+这|zhè|this|这是我的朋友。|Zhè shì wǒ de péngyou.|This is my friend.
+中国|zhōng guó|China|我想去中国旅游。|Wǒ xiǎng qù Zhōngguó lǚyóu.|I want to travel to China.
+中午|zhōng wǔ|noon; midday|中午你吃什么？|Zhōngwǔ nǐ chī shénme?|What are you having for lunch?
+住|zhù|to live; stay|你住在哪儿？|Nǐ zhù zài nǎr?|Where do you live?
+桌子|zhuō zi|table; desk|桌子上有一本书。|Zhuōzi shang yǒu yì běn shū.|There's a book on the table.
+字|zì|character; word|这个字我不认识。|Zhège zì wǒ bú rènshi.|I don't know this character.
+昨天|zuó tiān|yesterday|昨天我去看电影了。|Zuótiān wǒ qù kàn diànyǐng le.|I went to the movies yesterday.
+坐|zuò|to sit; to take (transport)|我坐地铁去上班。|Wǒ zuò dìtiě qù shàngbān.|I take the subway to work.
+做|zuò|to do; to make|你在做什么？|Nǐ zài zuò shénme?|What are you doing?`;
+const HSK2_RAW = `吧|ba|(suggestion particle)|我们走吧。|Wǒmen zǒu ba.|Let's go.
+白|bái|white|我想买一件白衬衫。|Wǒ xiǎng mǎi yí jiàn bái chènshān.|I want to buy a white shirt.
+百|bǎi|hundred|这件衣服三百块。|Zhè jiàn yīfu sānbǎi kuài.|This piece of clothing is 300 yuan.
+帮助|bāng zhù|to help; help|谢谢你帮助我。|Xièxie nǐ bāngzhù wǒ.|Thanks for helping me.
+报纸|bào zhǐ|newspaper|爷爷每天看报纸。|Yéye měitiān kàn bàozhǐ.|Grandpa reads the paper every day.
+比|bǐ|than; to compare|今天比昨天冷。|Jīntiān bǐ zuótiān lěng.|Today is colder than yesterday.
+别|bié|don't|别着急！|Bié zháojí!|Don't worry!
+长|cháng|long|她的头发很长。|Tā de tóufa hěn cháng.|Her hair is very long.
+唱歌|chàng gē|to sing|我们去唱歌吧！|Wǒmen qù chàng gē ba!|Let's go sing karaoke!
+出|chū|to go out; come out|他出去了。|Tā chūqu le.|He's gone out.
+穿|chuān|to wear; put on|今天冷，多穿点儿。|Jīntiān lěng, duō chuān diǎnr.|It's cold today, wear more layers.
+次|cì|time(s); occurrence|我去过两次北京。|Wǒ qùguo liǎng cì Běijīng.|I've been to Beijing twice.
+从|cóng|from|我从澳大利亚来。|Wǒ cóng Àodàlìyà lái.|I'm from Australia.
+错|cuò|wrong; mistake|对不起，我写错了。|Duìbuqǐ, wǒ xiěcuò le.|Sorry, I wrote it wrong.
+打篮球|dǎ lán qiú|to play basketball|我儿子喜欢打篮球。|Wǒ érzi xǐhuan dǎ lánqiú.|My son loves playing basketball.
+大家|dà jiā|everyone|大家好！|Dàjiā hǎo!|Hi everyone!
+但是|dàn shì|but|这个很好，但是太贵了。|Zhège hěn hǎo, dànshì tài guì le.|This is good, but it's too expensive.
+到|dào|to arrive; to; until|你什么时候到？|Nǐ shénme shíhou dào?|When will you arrive?
+得|de|(complement particle)|她跑得很快。|Tā pǎo de hěn kuài.|She runs very fast.
+等|děng|to wait|请等一下。|Qǐng děng yíxià.|Please wait a moment.
+弟弟|dì di|younger brother|我弟弟今年十八岁。|Wǒ dìdi jīnnián shíbā suì.|My little brother is eighteen this year.
+第一|dì yī|first|这是我第一次来中国。|Zhè shì wǒ dì-yī cì lái Zhōngguó.|This is my first time in China.
+懂|dǒng|to understand|你懂我的意思吗？|Nǐ dǒng wǒ de yìsi ma?|Do you get what I mean?
+对|duì|correct; towards; to|你说得对。|Nǐ shuō de duì.|You're right.
+房间|fáng jiān|room|我的房间很小。|Wǒ de fángjiān hěn xiǎo.|My room is small.
+非常|fēi cháng|very; extremely|我非常喜欢这本书。|Wǒ fēicháng xǐhuan zhè běn shū.|I really love this book.
+服务员|fú wù yuán|waiter; attendant|服务员，买单！|Fúwùyuán, mǎidān!|Waiter, the bill please!
+高|gāo|tall; high|他比我高。|Tā bǐ wǒ gāo.|He's taller than me.
+告诉|gào su|to tell|请告诉我你的电话号码。|Qǐng gàosu wǒ nǐ de diànhuà hàomǎ.|Please tell me your phone number.
+哥哥|gē ge|older brother|我哥哥在北京工作。|Wǒ gēge zài Běijīng gōngzuò.|My older brother works in Beijing.
+给|gěi|to give; for|请给我一杯茶。|Qǐng gěi wǒ yì bēi chá.|A cup of tea, please.
+公共汽车|gōng gòng qì chē|bus|我坐公共汽车上班。|Wǒ zuò gōnggòng qìchē shàngbān.|I take the bus to work.
+公司|gōng sī|company|你在哪家公司工作？|Nǐ zài nǎ jiā gōngsī gōngzuò?|Which company do you work for?
+贵|guì|expensive|这个太贵了！|Zhège tài guì le!|This is too expensive!
+过|guo|(experience particle)|你吃过北京烤鸭吗？|Nǐ chīguo Běijīng kǎoyā ma?|Have you ever had Peking duck?
+还|hái|still; also; yet|你还在上班吗？|Nǐ hái zài shàngbān ma?|Are you still at work?
+孩子|hái zi|child|你的孩子几岁了？|Nǐ de háizi jǐ suì le?|How old is your child?
+好吃|hǎo chī|tasty; delicious|妈妈做的菜很好吃。|Māma zuò de cài hěn hǎochī.|Mum's cooking is delicious.
+黑|hēi|black; dark|天黑了，我们回家吧。|Tiān hēi le, wǒmen huí jiā ba.|It's getting dark, let's go home.
+红|hóng|red|她穿了一条红裙子。|Tā chuānle yì tiáo hóng qúnzi.|She's wearing a red dress.
+火车站|huǒ chē zhàn|train station|火车站离这儿远吗？|Huǒchēzhàn lí zhèr yuǎn ma?|Is the train station far from here?
+机场|jī chǎng|airport|我们几点去机场？|Wǒmen jǐ diǎn qù jīchǎng?|What time are we going to the airport?
+鸡蛋|jī dàn|egg|我早上吃了两个鸡蛋。|Wǒ zǎoshang chīle liǎng ge jīdàn.|I had two eggs for breakfast.
+件|jiàn|(measure word for clothes, matters)|我买了一件衣服。|Wǒ mǎile yí jiàn yīfu.|I bought a piece of clothing.
+教室|jiào shì|classroom|学生们都在教室里。|Xuéshengmen dōu zài jiàoshì li.|The students are all in the classroom.
+姐姐|jiě jie|older sister|我姐姐是老师。|Wǒ jiějie shì lǎoshī.|My older sister is a teacher.
+介绍|jiè shào|to introduce|我来介绍一下，这是我朋友。|Wǒ lái jièshào yíxià, zhè shì wǒ péngyou.|Let me introduce you — this is my friend.
+进|jìn|to enter|请进！|Qǐng jìn!|Come in!
+近|jìn|near; close|我家离公司很近。|Wǒ jiā lí gōngsī hěn jìn.|My home is close to work.
+就|jiù|just; then; right away|我马上就来。|Wǒ mǎshàng jiù lái.|I'm coming right away.
+觉得|jué de|to feel; to think|我觉得这个很好。|Wǒ juéde zhège hěn hǎo.|I think this is great.
+咖啡|kā fēi|coffee|我每天早上喝咖啡。|Wǒ měitiān zǎoshang hē kāfēi.|I drink coffee every morning.
+开始|kāi shǐ|to begin; start|电影几点开始？|Diànyǐng jǐ diǎn kāishǐ?|What time does the movie start?
+考试|kǎo shì|exam; to take an exam|明天有汉语考试。|Míngtiān yǒu Hànyǔ kǎoshì.|There's a Chinese exam tomorrow.
+可能|kě néng|maybe; possible|明天可能下雨。|Míngtiān kěnéng xià yǔ.|It might rain tomorrow.
+可以|kě yǐ|can; may|我可以坐这儿吗？|Wǒ kěyǐ zuò zhèr ma?|May I sit here?
+课|kè|class; lesson|今天下午有汉语课。|Jīntiān xiàwǔ yǒu Hànyǔ kè.|There's a Chinese class this afternoon.
+快|kuài|fast; quick; soon|快点儿，我们要迟到了！|Kuài diǎnr, wǒmen yào chídào le!|Hurry, we're going to be late!
+快乐|kuài lè|happy|生日快乐！|Shēngrì kuàilè!|Happy birthday!
+累|lèi|tired|今天工作很多，我很累。|Jīntiān gōngzuò hěn duō, wǒ hěn lèi.|Lots of work today, I'm tired.
+离|lí|(distance) from|学校离这儿不远。|Xuéxiào lí zhèr bù yuǎn.|The school isn't far from here.
+两|liǎng|two (with measure words)|我要两杯咖啡。|Wǒ yào liǎng bēi kāfēi.|I'd like two coffees.
+零|líng|zero|今天零度。|Jīntiān líng dù.|It's zero degrees today.
+路|lù|road; route|这条路很长。|Zhè tiáo lù hěn cháng.|This road is very long.
+旅游|lǚ yóu|to travel; tourism|我喜欢去旅游。|Wǒ xǐhuan qù lǚyóu.|I love travelling.
+卖|mài|to sell|这个商店卖什么？|Zhège shāngdiàn mài shénme?|What does this shop sell?
+慢|màn|slow|请说慢一点儿。|Qǐng shuō màn yìdiǎnr.|Please speak a bit more slowly.
+忙|máng|busy|你最近忙吗？|Nǐ zuìjìn máng ma?|Have you been busy lately?
+每|měi|every; each|我每天学习汉语。|Wǒ měitiān xuéxí Hànyǔ.|I study Chinese every day.
+妹妹|mèi mei|younger sister|我妹妹喜欢唱歌。|Wǒ mèimei xǐhuan chàng gē.|My little sister loves singing.
+门|mén|door; gate|请关门。|Qǐng guān mén.|Please close the door.
+男|nán|male; man|那个男人是谁？|Nàge nánrén shì shéi?|Who's that man?
+您|nín|you (polite)|您贵姓？|Nín guì xìng?|May I ask your surname?
+牛奶|niú nǎi|milk|我早上喝牛奶。|Wǒ zǎoshang hē niúnǎi.|I drink milk in the morning.
+女|nǚ|female; woman|那个女孩子是我女儿。|Nàge nǚ háizi shì wǒ nǚ'ér.|That girl is my daughter.
+旁边|páng biān|beside; next to|银行在超市旁边。|Yínháng zài chāoshì pángbiān.|The bank is next to the supermarket.
+跑步|pǎo bù|to run; jog|我每天早上跑步。|Wǒ měitiān zǎoshang pǎobù.|I go for a run every morning.
+便宜|pián yi|cheap|这个很便宜。|Zhège hěn piányi.|This is very cheap.
+票|piào|ticket|我买了两张票。|Wǒ mǎile liǎng zhāng piào.|I bought two tickets.
+妻子|qī zi|wife|他妻子是医生。|Tā qīzi shì yīshēng.|His wife is a doctor.
+起床|qǐ chuáng|to get up|你每天几点起床？|Nǐ měitiān jǐ diǎn qǐchuáng?|What time do you get up each day?
+千|qiān|thousand|这个手机三千块。|Zhège shǒujī sānqiān kuài.|This phone costs 3,000 yuan.
+铅笔|qiān bǐ|pencil|我可以用你的铅笔吗？|Wǒ kěyǐ yòng nǐ de qiānbǐ ma?|Can I use your pencil?
+晴|qíng|sunny; clear|明天是晴天。|Míngtiān shì qíngtiān.|Tomorrow will be sunny.
+去年|qù nián|last year|去年我去了中国。|Qùnián wǒ qùle Zhōngguó.|I went to China last year.
+让|ràng|to let; to make (sb do sth)|妈妈让我早点儿睡觉。|Māma ràng wǒ zǎo diǎnr shuìjiào.|Mum makes me go to bed early.
+日|rì|day; date; sun|今天是五月一日。|Jīntiān shì wǔ yuè yī rì.|Today is the 1st of May.
+上班|shàng bān|to go to work|你几点上班？|Nǐ jǐ diǎn shàngbān?|What time do you start work?
+身体|shēn tǐ|body; health|你身体好吗？|Nǐ shēntǐ hǎo ma?|How's your health?
+生病|shēng bìng|to get sick|他生病了，没来上课。|Tā shēngbìng le, méi lái shàngkè.|He's sick and didn't come to class.
+生日|shēng rì|birthday|你的生日是几月几号？|Nǐ de shēngrì shì jǐ yuè jǐ hào?|When's your birthday?
+时间|shí jiān|time|你有时间吗？|Nǐ yǒu shíjiān ma?|Do you have time?
+事情|shì qing|thing; matter|我有一件事情要告诉你。|Wǒ yǒu yí jiàn shìqing yào gàosu nǐ.|I have something to tell you.
+手表|shǒu biǎo|wristwatch|这块手表很贵。|Zhè kuài shǒubiǎo hěn guì.|This watch is very expensive.
+手机|shǒu jī|mobile phone|我的手机没电了。|Wǒ de shǒujī méi diàn le.|My phone's battery is dead.
+说话|shuō huà|to speak; talk|上课的时候别说话。|Shàngkè de shíhou bié shuōhuà.|Don't talk during class.
+送|sòng|to give (as gift); to see off; deliver|我送你一本书。|Wǒ sòng nǐ yì běn shū.|I'll give you a book.
+所以|suǒ yǐ|so; therefore|下雨了，所以我没去。|Xià yǔ le, suǒyǐ wǒ méi qù.|It rained, so I didn't go.
+它|tā|it|这是我的猫，它叫小白。|Zhè shì wǒ de māo, tā jiào Xiǎo Bái.|This is my cat, it's called Xiaobai.
+踢足球|tī zú qiú|to play soccer|周末我们去踢足球。|Zhōumò wǒmen qù tī zúqiú.|We play soccer on the weekend.
+题|tí|question; problem (exam)|这道题很难。|Zhè dào tí hěn nán.|This question is hard.
+跳舞|tiào wǔ|to dance|她跳舞跳得很好。|Tā tiàowǔ tiào de hěn hǎo.|She dances really well.
+外|wài|outside|外面下雨了。|Wàimian xià yǔ le.|It's raining outside.
+完|wán|to finish|我吃完了。|Wǒ chīwán le.|I've finished eating.
+玩|wán|to play; have fun|周末去哪儿玩？|Zhōumò qù nǎr wán?|Where shall we go for fun this weekend?
+晚上|wǎn shang|evening; night|晚上我们去吃饭吧。|Wǎnshang wǒmen qù chī fàn ba.|Let's go out for dinner tonight.
+往|wǎng|towards|往前走就到了。|Wǎng qián zǒu jiù dào le.|Go straight and you're there.
+为什么|wèi shén me|why|你为什么学汉语？|Nǐ wèishénme xué Hànyǔ?|Why are you learning Chinese?
+问|wèn|to ask|我可以问你一个问题吗？|Wǒ kěyǐ wèn nǐ yí ge wèntí ma?|Can I ask you a question?
+问题|wèn tí|question; problem|没问题！|Méi wèntí!|No problem!
+西瓜|xī guā|watermelon|夏天我喜欢吃西瓜。|Xiàtiān wǒ xǐhuan chī xīguā.|I love watermelon in summer.
+希望|xī wàng|to hope; hope|希望你喜欢这个礼物。|Xīwàng nǐ xǐhuan zhège lǐwù.|I hope you like this gift.
+洗|xǐ|to wash|吃饭以前要洗手。|Chī fàn yǐqián yào xǐ shǒu.|Wash your hands before eating.
+小时|xiǎo shí|hour|我每天工作八个小时。|Wǒ měitiān gōngzuò bā ge xiǎoshí.|I work eight hours a day.
+笑|xiào|to laugh; smile|她笑得很开心。|Tā xiào de hěn kāixīn.|She laughed happily.
+新|xīn|new|这是我的新手机。|Zhè shì wǒ de xīn shǒujī.|This is my new phone.
+姓|xìng|surname; to be surnamed|我姓王。|Wǒ xìng Wáng.|My surname is Wang.
+休息|xiū xi|to rest|累了就休息一下。|Lèi le jiù xiūxi yíxià.|Take a break if you're tired.
+雪|xuě|snow|北京冬天会下雪。|Běijīng dōngtiān huì xià xuě.|It snows in Beijing in winter.
+颜色|yán sè|colour|你喜欢什么颜色？|Nǐ xǐhuan shénme yánsè?|What colour do you like?
+眼睛|yǎn jing|eye|她的眼睛很大。|Tā de yǎnjing hěn dà.|She has big eyes.
+羊肉|yáng ròu|lamb; mutton|你吃羊肉吗？|Nǐ chī yángròu ma?|Do you eat lamb?
+药|yào|medicine|你吃药了吗？|Nǐ chī yào le ma?|Have you taken your medicine?
+要|yào|to want; will; need|我要一杯咖啡。|Wǒ yào yì bēi kāfēi.|I'd like a coffee.
+也|yě|also; too|我也是老师。|Wǒ yě shì lǎoshī.|I'm a teacher too.
+一起|yì qǐ|together|我们一起吃饭吧。|Wǒmen yìqǐ chī fàn ba.|Let's eat together.
+一下|yí xià|(a quick try / a bit)|你看一下。|Nǐ kàn yíxià.|Have a look.
+已经|yǐ jīng|already|我已经吃饭了。|Wǒ yǐjīng chī fàn le.|I've already eaten.
+意思|yì si|meaning; interest|这个字是什么意思？|Zhège zì shì shénme yìsi?|What does this character mean?
+因为|yīn wèi|because|因为下雨，所以我没去。|Yīnwèi xià yǔ, suǒyǐ wǒ méi qù.|I didn't go because it rained.
+阴|yīn|cloudy; overcast|今天是阴天。|Jīntiān shì yīntiān.|It's overcast today.
+游泳|yóu yǒng|to swim|你会游泳吗？|Nǐ huì yóuyǒng ma?|Can you swim?
+右边|yòu bian|right side|银行在右边。|Yínháng zài yòubian.|The bank is on the right.
+鱼|yú|fish|我不太喜欢吃鱼。|Wǒ bú tài xǐhuan chī yú.|I don't really like eating fish.
+远|yuǎn|far|你家离这儿远吗？|Nǐ jiā lí zhèr yuǎn ma?|Is your place far from here?
+运动|yùn dòng|sport; exercise|你喜欢什么运动？|Nǐ xǐhuan shénme yùndòng?|What sports do you like?
+再|zài|again (future)|请再说一遍。|Qǐng zài shuō yí biàn.|Please say that again.
+早上|zǎo shang|early morning|早上好！|Zǎoshang hǎo!|Good morning!
+丈夫|zhàng fu|husband|她丈夫做饭做得很好。|Tā zhàngfu zuò fàn zuò de hěn hǎo.|Her husband is a great cook.
+找|zhǎo|to look for; find|你在找什么？|Nǐ zài zhǎo shénme?|What are you looking for?
+着|zhe|(continuous-state particle)|门开着。|Mén kāizhe.|The door is open.
+真|zhēn|really; true|你的汉语真好！|Nǐ de Hànyǔ zhēn hǎo!|Your Chinese is really good!
+正在|zhèng zài|in the middle of (doing)|我正在吃饭。|Wǒ zhèngzài chī fàn.|I'm eating right now.
+知道|zhī dào|to know|我不知道。|Wǒ bù zhīdào.|I don't know.
+准备|zhǔn bèi|to prepare; plan to|你准备好了吗？|Nǐ zhǔnbèi hǎo le ma?|Are you ready?
+走|zǒu|to walk; to leave|我们走路去吧。|Wǒmen zǒulù qù ba.|Let's walk there.
+最|zuì|most|我最喜欢夏天。|Wǒ zuì xǐhuan xiàtiān.|I like summer the most.
+左边|zuǒ bian|left side|洗手间在左边。|Xǐshǒujiān zài zuǒbian.|The toilet is on the left.`;
+const HSK3_RAW = `阿姨|ā yí|aunt; auntie; nanny|阿姨，请问洗手间在哪儿？|Āyí, qǐngwèn xǐshǒujiān zài nǎr?|Excuse me, auntie, where's the toilet?
+啊|a|(particle of surprise or emphasis)|你怎么还不睡觉啊？|Nǐ zěnme hái bú shuìjiào a?|Why aren't you asleep yet?
+矮|ǎi|short (height); low|我弟弟比我矮一点儿。|Wǒ dìdi bǐ wǒ ǎi yìdiǎnr.|My little brother is a bit shorter than me.
+爱好|ài hào|hobby; interest|你有什么爱好？|Nǐ yǒu shénme àihào?|What are your hobbies?
+安静|ān jìng|quiet; peaceful|图书馆里很安静。|Túshūguǎn li hěn ānjìng.|It's very quiet in the library.
+把|bǎ|(object marker); handful of|请把门关上。|Qǐng bǎ mén guānshang.|Please close the door.
+班|bān|class; team; shift|我们班有二十个学生。|Wǒmen bān yǒu èrshí ge xuésheng.|There are twenty students in our class.
+搬|bān|to move (house / an object)|我们下个月搬家。|Wǒmen xià ge yuè bānjiā.|We're moving house next month.
+办法|bàn fǎ|method; way (of doing sth)|别着急，我们一定有办法。|Bié zháojí, wǒmen yídìng yǒu bànfǎ.|Don't worry, we'll definitely find a way.
+办公室|bàn gōng shì|office|经理在办公室里开会。|Jīnglǐ zài bàngōngshì li kāihuì.|The manager is in a meeting in the office.
+半|bàn|half|我等了你半个小时。|Wǒ děngle nǐ bàn ge xiǎoshí.|I waited for you for half an hour.
+帮忙|bāng máng|to help; do a favour|你能帮我一个忙吗？|Nǐ néng bāng wǒ yí ge máng ma?|Can you do me a favour?
+包|bāo|bag; to wrap|这个包是谁的？|Zhège bāo shì shéi de?|Whose bag is this?
+饱|bǎo|full (after eating)|我吃饱了，谢谢。|Wǒ chībǎo le, xièxie.|I'm full, thanks.
+北方|běi fāng|the north|北方的冬天很冷。|Běifāng de dōngtiān hěn lěng.|Winter in the north is very cold.
+被|bèi|by (passive marker)|我的蛋糕被弟弟吃了。|Wǒ de dàngāo bèi dìdi chī le.|My cake got eaten by my little brother.
+鼻子|bí zi|nose|熊猫的鼻子是黑色的。|Xióngmāo de bízi shì hēisè de.|A panda's nose is black.
+比较|bǐ jiào|relatively; to compare|今天比较热。|Jīntiān bǐjiào rè.|It's fairly hot today.
+比赛|bǐ sài|match; competition|明天有一场足球比赛。|Míngtiān yǒu yì chǎng zúqiú bǐsài.|There's a football match tomorrow.
+笔记本|bǐ jì běn|notebook; laptop|我的笔记本电脑坏了。|Wǒ de bǐjìběn diànnǎo huài le.|My laptop is broken.
+必须|bì xū|must; have to|你必须八点以前到。|Nǐ bìxū bā diǎn yǐqián dào.|You must arrive before eight.
+变化|biàn huà|change; to change|这几年北京的变化很大。|Zhè jǐ nián Běijīng de biànhuà hěn dà.|Beijing has changed a lot in the past few years.
+别人|bié rén|other people|别人说什么，你不用管。|Biérén shuō shénme, nǐ búyòng guǎn.|Don't worry about what other people say.
+宾馆|bīn guǎn|hotel|这家宾馆离机场很近。|Zhè jiā bīnguǎn lí jīchǎng hěn jìn.|This hotel is very close to the airport.
+冰箱|bīng xiāng|fridge|冰箱里还有牛奶吗？|Bīngxiāng li hái yǒu niúnǎi ma?|Is there still milk in the fridge?
+才|cái|only then; just now|他十点才起床。|Tā shí diǎn cái qǐchuáng.|He didn't get up until ten.
+菜单|cài dān|menu|服务员，请给我们菜单。|Fúwùyuán, qǐng gěi wǒmen càidān.|Waiter, the menu please.
+参加|cān jiā|to take part in; attend|你参加明天的会议吗？|Nǐ cānjiā míngtiān de huìyì ma?|Are you going to tomorrow's meeting?
+草|cǎo|grass|小狗在草上跑来跑去。|Xiǎo gǒu zài cǎo shang pǎo lái pǎo qù.|The puppy is running around on the grass.
+层|céng|floor; storey; layer|我家住在十二层。|Wǒ jiā zhù zài shí'èr céng.|We live on the 12th floor.
+差|chà|poor; not up to standard; to lack|我的数学成绩很差。|Wǒ de shùxué chéngjì hěn chà.|My maths grades are poor.
+超市|chāo shì|supermarket|我去超市买点儿水果。|Wǒ qù chāoshì mǎi diǎnr shuǐguǒ.|I'm going to the supermarket to buy some fruit.
+衬衫|chèn shān|shirt|这件白衬衫多少钱？|Zhè jiàn bái chènshān duōshao qián?|How much is this white shirt?
+成绩|chéng jì|grades; results|她这次考试成绩很好。|Tā zhè cì kǎoshì chéngjì hěn hǎo.|She did very well in this exam.
+城市|chéng shì|city|上海是一个很大的城市。|Shànghǎi shì yí ge hěn dà de chéngshì.|Shanghai is a very big city.
+迟到|chí dào|to be late|对不起，我迟到了。|Duìbuqǐ, wǒ chídào le.|Sorry, I'm late.
+除了|chú le|except; besides|除了他，我们都去了。|Chúle tā, wǒmen dōu qù le.|Apart from him, we all went.
+船|chuán|boat; ship|我们坐船去吧。|Wǒmen zuò chuán qù ba.|Let's go by boat.
+春|chūn|spring (season)|春天到了，花都开了。|Chūntiān dào le, huā dōu kāi le.|Spring is here and the flowers are all out.
+词典|cí diǎn|dictionary|这个字我要查一下词典。|Zhège zì wǒ yào chá yíxià cídiǎn.|I need to look this character up in the dictionary.
+聪明|cōng ming|clever; smart|这只小狗非常聪明。|Zhè zhī xiǎo gǒu fēicháng cōngming.|This puppy is really clever.
+打扫|dǎ sǎo|to clean; sweep|周末我要打扫房间。|Zhōumò wǒ yào dǎsǎo fángjiān.|I have to clean my room this weekend.
+打算|dǎ suàn|to plan; intend|周末你有什么打算？|Zhōumò nǐ yǒu shénme dǎsuàn?|What are your plans for the weekend?
+带|dài|to bring; take; carry|下雨了，别忘了带伞。|Xià yǔ le, bié wàngle dài sǎn.|It's raining, don't forget your umbrella.
+担心|dān xīn|to worry|别担心，我很快就回来。|Bié dānxīn, wǒ hěn kuài jiù huílai.|Don't worry, I'll be back soon.
+蛋糕|dàn gāo|cake|妈妈给我做了一个生日蛋糕。|Māma gěi wǒ zuòle yí ge shēngrì dàngāo.|Mum made me a birthday cake.
+当然|dāng rán|of course|当然可以！|Dāngrán kěyǐ!|Of course you can!
+地|de|(adverb particle: 地)|他高兴地笑了。|Tā gāoxìng de xiào le.|He smiled happily.
+灯|dēng|light; lamp|出门的时候请关灯。|Chūmén de shíhou qǐng guān dēng.|Please turn off the lights when you go out.
+地方|dì fang|place|这是什么地方？|Zhè shì shénme dìfang?|What is this place?
+地铁|dì tiě|subway; metro|我每天坐地铁上班。|Wǒ měitiān zuò dìtiě shàngbān.|I take the subway to work every day.
+地图|dì tú|map|去旅游的时候别忘了带地图。|Qù lǚyóu de shíhou bié wàngle dài dìtú.|Don't forget a map when you travel.
+电梯|diàn tī|lift; elevator|电梯坏了，我们走上去吧。|Diàntī huài le, wǒmen zǒu shàngqu ba.|The lift is broken, let's walk up.
+电子邮件|diàn zǐ yóu jiàn|email|我给你发了一封电子邮件。|Wǒ gěi nǐ fāle yì fēng diànzǐ yóujiàn.|I sent you an email.
+东|dōng|east|太阳从东边出来。|Tàiyáng cóng dōngbian chūlai.|The sun rises in the east.
+冬|dōng|winter|我最喜欢冬天。|Wǒ zuì xǐhuan dōngtiān.|Winter is my favourite season.
+动物|dòng wù|animal|你最喜欢什么动物？|Nǐ zuì xǐhuan shénme dòngwù?|What's your favourite animal?
+短|duǎn|short (length)|这条裤子有点儿短。|Zhè tiáo kùzi yǒudiǎnr duǎn.|These trousers are a bit short.
+段|duàn|section; paragraph; period|这段时间我特别忙。|Zhè duàn shíjiān wǒ tèbié máng.|I've been really busy lately.
+锻炼|duàn liàn|to exercise; work out|我每天早上锻炼身体。|Wǒ měitiān zǎoshang duànliàn shēntǐ.|I exercise every morning.
+多么|duō me|how (very)…!|这个公园多么漂亮啊！|Zhège gōngyuán duōme piàoliang a!|How beautiful this park is!
+饿|è|hungry|我饿了，我们去吃饭吧。|Wǒ è le, wǒmen qù chīfàn ba.|I'm hungry, let's go eat.
+而且|ér qiě|moreover; and also|这家饭馆很便宜，而且菜很好吃。|Zhè jiā fànguǎn hěn piányi, érqiě cài hěn hǎochī.|This restaurant is cheap, and the food is good too.
+耳朵|ěr duo|ear|小狗的耳朵很长。|Xiǎo gǒu de ěrduo hěn cháng.|The puppy's ears are long.
+发|fā|to send; to issue|到了以后给我发个短信。|Dàole yǐhòu gěi wǒ fā ge duǎnxìn.|Send me a text when you arrive.
+发烧|fā shāo|to have a fever|孩子发烧了，要去医院。|Háizi fāshāo le, yào qù yīyuàn.|The child has a fever and needs to go to hospital.
+发现|fā xiàn|to discover; notice|我发现我的手机不见了。|Wǒ fāxiàn wǒ de shǒujī bú jiàn le.|I noticed my phone was missing.
+方便|fāng biàn|convenient|住在这儿买东西很方便。|Zhù zài zhèr mǎi dōngxi hěn fāngbiàn.|Shopping is very convenient living here.
+放|fàng|to put; place|你把书放在桌子上吧。|Nǐ bǎ shū fàng zài zhuōzi shang ba.|Put the book on the table.
+放心|fàng xīn|to relax; stop worrying|放心吧，我会照顾好自己。|Fàngxīn ba, wǒ huì zhàogù hǎo zìjǐ.|Don't worry, I'll look after myself.
+分|fēn|to divide; minute; cent; point|现在是八点十分。|Xiànzài shì bā diǎn shí fēn.|It's ten past eight.
+附近|fù jìn|nearby|附近有银行吗？|Fùjìn yǒu yínháng ma?|Is there a bank nearby?
+复习|fù xí|to revise; review|明天考试，今天晚上要复习。|Míngtiān kǎoshì, jīntiān wǎnshang yào fùxí.|There's an exam tomorrow, so I have to revise tonight.
+干净|gān jìng|clean|房间打扫得很干净。|Fángjiān dǎsǎo de hěn gānjìng.|The room has been cleaned really well.
+感冒|gǎn mào|to catch a cold|我感冒了，不想去上班。|Wǒ gǎnmào le, bù xiǎng qù shàngbān.|I've got a cold and don't feel like going to work.
+感兴趣|gǎn xìng qù|to be interested in|我对中国文化很感兴趣。|Wǒ duì Zhōngguó wénhuà hěn gǎn xìngqù.|I'm very interested in Chinese culture.
+刚才|gāng cái|just now|刚才谁给我打电话了？|Gāngcái shéi gěi wǒ dǎ diànhuà le?|Who called me just now?
+个子|gè zi|height; build|他个子很高。|Tā gèzi hěn gāo.|He's very tall.
+根据|gēn jù|according to; based on|根据天气预报，明天会下雨。|Gēnjù tiānqì yùbào, míngtiān huì xià yǔ.|According to the forecast, it'll rain tomorrow.
+跟|gēn|with; and; to follow|你能跟我一起去吗？|Nǐ néng gēn wǒ yìqǐ qù ma?|Can you go with me?
+更|gèng|even more|我更喜欢喝茶。|Wǒ gèng xǐhuan hē chá.|I prefer tea.
+公斤|gōng jīn|kilogram|这个箱子有二十公斤。|Zhège xiāngzi yǒu èrshí gōngjīn.|This box weighs twenty kilos.
+公园|gōng yuán|park|我们去公园散步吧。|Wǒmen qù gōngyuán sànbù ba.|Let's go for a walk in the park.
+故事|gù shi|story|奶奶给我讲了一个故事。|Nǎinai gěi wǒ jiǎngle yí ge gùshi.|Grandma told me a story.
+刮风|guā fēng|to be windy|外面刮风了，多穿点儿衣服。|Wàimian guā fēng le, duō chuān diǎnr yīfu.|It's windy outside, wear something warmer.
+关|guān|to close; turn off|请关一下窗户。|Qǐng guān yíxià chuānghu.|Please close the window.
+关系|guān xi|relationship; connection|我们的关系很好。|Wǒmen de guānxi hěn hǎo.|We get on really well.
+关心|guān xīn|to care about|谢谢你的关心。|Xièxie nǐ de guānxīn.|Thanks for your concern.
+关于|guān yú|about; regarding|这是一本关于中国历史的书。|Zhè shì yì běn guānyú Zhōngguó lìshǐ de shū.|This is a book about Chinese history.
+国家|guó jiā|country|你去过哪些国家？|Nǐ qùguo nǎxiē guójiā?|Which countries have you been to?
+过|guò|to pass; spend (time)|过了马路就是超市。|Guòle mǎlù jiù shì chāoshì.|The supermarket is just across the road.
+过去|guò qù|the past; to go over|过去我不喜欢运动。|Guòqù wǒ bù xǐhuan yùndòng.|In the past I didn't like sport.
+果汁|guǒ zhī|fruit juice|我要一杯苹果汁。|Wǒ yào yì bēi píngguǒzhī.|I'd like a glass of apple juice.
+害怕|hài pà|to be afraid|我女儿害怕小狗。|Wǒ nǚ'ér hàipà xiǎo gǒu.|My daughter is scared of dogs.
+还是|hái shi|or (in questions); still; had better|你喝茶还是喝咖啡？|Nǐ hē chá háishi hē kāfēi?|Would you like tea or coffee?
+河|hé|river|河边有很多树。|Hé biān yǒu hěn duō shù.|There are lots of trees by the river.
+黑板|hēi bǎn|blackboard|老师在黑板上写字。|Lǎoshī zài hēibǎn shang xiě zì.|The teacher is writing on the blackboard.
+护照|hù zhào|passport|出国一定要带护照。|Chūguó yídìng yào dài hùzhào.|You must bring your passport when going abroad.
+花|huā|flower; to spend|这个月我花了很多钱。|Zhège yuè wǒ huāle hěn duō qián.|I spent a lot of money this month.
+花园|huā yuán|garden|我家后面有一个小花园。|Wǒ jiā hòumian yǒu yí ge xiǎo huāyuán.|There's a small garden behind my house.
+画|huà|to draw; painting|我女儿很喜欢画画儿。|Wǒ nǚ'ér hěn xǐhuan huà huàr.|My daughter loves drawing.
+坏|huài|bad; broken|我的手表坏了。|Wǒ de shǒubiǎo huài le.|My watch is broken.
+欢迎|huān yíng|welcome|欢迎你来我家玩儿！|Huānyíng nǐ lái wǒ jiā wánr!|You're welcome to come over to my place!
+还|huán|to give back; return|我明天还你书。|Wǒ míngtiān huán nǐ shū.|I'll give your book back tomorrow.
+环境|huán jìng|environment|这儿的环境很好。|Zhèr de huánjìng hěn hǎo.|The surroundings here are lovely.
+换|huàn|to change; exchange|我想换一件大一点儿的。|Wǒ xiǎng huàn yí jiàn dà yìdiǎnr de.|I'd like to swap it for a bigger one.
+黄河|huáng hé|Yellow River|黄河是中国第二长的河。|Huáng Hé shì Zhōngguó dì-èr cháng de hé.|The Yellow River is China's second-longest river.
+回答|huí dá|to answer; reply|请回答我的问题。|Qǐng huídá wǒ de wèntí.|Please answer my question.
+会议|huì yì|meeting; conference|会议几点开始？|Huìyì jǐ diǎn kāishǐ?|What time does the meeting start?
+或者|huò zhě|or (in statements)|周末我看书或者看电影。|Zhōumò wǒ kàn shū huòzhě kàn diànyǐng.|On weekends I read or watch movies.
+几乎|jī hū|almost|我几乎每天都喝咖啡。|Wǒ jīhū měitiān dōu hē kāfēi.|I drink coffee almost every day.
+机会|jī huì|opportunity; chance|这是一个很好的机会。|Zhè shì yí ge hěn hǎo de jīhuì.|This is a great opportunity.
+极|jí|extremely|今天天气好极了！|Jīntiān tiānqì hǎo jí le!|The weather is fantastic today!
+记得|jì de|to remember|你还记得我吗？|Nǐ hái jìde wǒ ma?|Do you still remember me?
+季节|jì jié|season|你最喜欢哪个季节？|Nǐ zuì xǐhuan nǎge jìjié?|Which season do you like best?
+检查|jiǎn chá|to check; examine|医生给我检查了身体。|Yīshēng gěi wǒ jiǎnchále shēntǐ.|The doctor gave me a check-up.
+简单|jiǎn dān|simple|这个问题很简单。|Zhège wèntí hěn jiǎndān.|This question is very simple.
+见面|jiàn miàn|to meet (up)|我们明天在哪儿见面？|Wǒmen míngtiān zài nǎr jiànmiàn?|Where shall we meet tomorrow?
+健康|jiàn kāng|healthy; health|祝你身体健康！|Zhù nǐ shēntǐ jiànkāng!|Wishing you good health!
+讲|jiǎng|to speak; explain|老师讲得很清楚。|Lǎoshī jiǎng de hěn qīngchu.|The teacher explains very clearly.
+教|jiāo|to teach|她教我们汉语。|Tā jiāo wǒmen Hànyǔ.|She teaches us Chinese.
+角|jiǎo|corner; 1/10 yuan|这个本子三块五角钱。|Zhège běnzi sān kuài wǔ jiǎo qián.|This exercise book costs 3.50 yuan.
+脚|jiǎo|foot|走了一天，我的脚很疼。|Zǒule yì tiān, wǒ de jiǎo hěn téng.|After walking all day, my feet hurt.
+接|jiē|to pick up; to receive|我下午去机场接你。|Wǒ xiàwǔ qù jīchǎng jiē nǐ.|I'll pick you up from the airport this afternoon.
+街道|jiē dào|street|这条街道很干净。|Zhè tiáo jiēdào hěn gānjìng.|This street is very clean.
+结婚|jié hūn|to get married|他们去年结婚了。|Tāmen qùnián jiéhūn le.|They got married last year.
+结束|jié shù|to finish; end|会议几点结束？|Huìyì jǐ diǎn jiéshù?|What time does the meeting finish?
+节目|jié mù|program; show|这个电视节目很有意思。|Zhège diànshì jiémù hěn yǒu yìsi.|This TV show is really interesting.
+节日|jié rì|festival; holiday|春节是中国最重要的节日。|Chūnjié shì Zhōngguó zuì zhòngyào de jiérì.|Spring Festival is China's most important holiday.
+解决|jiě jué|to solve|这个问题已经解决了。|Zhège wèntí yǐjīng jiějué le.|This problem has been solved.
+借|jiè|to borrow; lend|我可以借你的笔吗？|Wǒ kěyǐ jiè nǐ de bǐ ma?|Can I borrow your pen?
+经常|jīng cháng|often|我经常去那家饭馆吃饭。|Wǒ jīngcháng qù nà jiā fànguǎn chīfàn.|I often eat at that restaurant.
+经过|jīng guò|to pass by; through|上班的时候我会经过公园。|Shàngbān de shíhou wǒ huì jīngguò gōngyuán.|I pass the park on my way to work.
+经理|jīng lǐ|manager|张经理正在开会。|Zhāng jīnglǐ zhèngzài kāihuì.|Manager Zhang is in a meeting.
+久|jiǔ|a long time|好久不见！|Hǎo jiǔ bú jiàn!|Long time no see!
+旧|jiù|old (not new)|这件衣服太旧了。|Zhè jiàn yīfu tài jiù le.|This piece of clothing is too old.
+句子|jù zi|sentence|请用这个词说一个句子。|Qǐng yòng zhège cí shuō yí ge jùzi.|Please make a sentence with this word.
+决定|jué dìng|to decide; decision|我决定明年去中国留学。|Wǒ juédìng míngnián qù Zhōngguó liúxué.|I've decided to study in China next year.
+可爱|kě ài|cute; lovely|这只熊猫太可爱了！|Zhè zhī xióngmāo tài kě'ài le!|This panda is so cute!
+渴|kě|thirsty|我渴了，想喝水。|Wǒ kě le, xiǎng hē shuǐ.|I'm thirsty and want some water.
+刻|kè|quarter (of an hour)|现在三点一刻。|Xiànzài sān diǎn yí kè.|It's quarter past three.
+客人|kè rén|guest; visitor|今天晚上家里有客人。|Jīntiān wǎnshang jiā li yǒu kèrén.|We have guests over tonight.
+空调|kōng tiáo|air conditioner|太热了，开空调吧。|Tài rè le, kāi kōngtiáo ba.|It's too hot, turn on the air con.
+口|kǒu|mouth; (measure word for family members)|你家有几口人？|Nǐ jiā yǒu jǐ kǒu rén?|How many people are in your family?
+哭|kū|to cry|孩子为什么哭了？|Háizi wèishénme kū le?|Why is the child crying?
+裤子|kù zi|trousers; pants|这条裤子太长了。|Zhè tiáo kùzi tài cháng le.|These trousers are too long.
+筷子|kuài zi|chopsticks|你会用筷子吗？|Nǐ huì yòng kuàizi ma?|Can you use chopsticks?
+蓝|lán|blue|今天的天特别蓝。|Jīntiān de tiān tèbié lán.|The sky is especially blue today.
+老|lǎo|old; always|我爷爷老了，走路很慢。|Wǒ yéye lǎo le, zǒulù hěn màn.|My grandpa is getting old and walks slowly.
+离开|lí kāi|to leave|他昨天离开北京了。|Tā zuótiān líkāi Běijīng le.|He left Beijing yesterday.
+礼物|lǐ wù|gift; present|这是我送你的生日礼物。|Zhè shì wǒ sòng nǐ de shēngrì lǐwù.|This is my birthday present for you.
+历史|lì shǐ|history|这个城市有很长的历史。|Zhège chéngshì yǒu hěn cháng de lìshǐ.|This city has a long history.
+脸|liǎn|face|他的脸红了。|Tā de liǎn hóng le.|His face went red.
+练习|liàn xí|to practise; exercise|我每天练习说汉语。|Wǒ měitiān liànxí shuō Hànyǔ.|I practise speaking Chinese every day.
+辆|liàng|(measure word for vehicles)|门口有一辆出租车。|Ménkǒu yǒu yí liàng chūzūchē.|There's a taxi at the door.
+聊天|liáo tiān|to chat|我们一边喝茶一边聊天。|Wǒmen yìbiān hē chá yìbiān liáotiān.|We chatted over tea.
+了解|liǎo jiě|to understand; find out|我不太了解这个城市。|Wǒ bú tài liǎojiě zhège chéngshì.|I don't know this city very well.
+邻居|lín jū|neighbour|我的邻居很热情。|Wǒ de línjū hěn rèqíng.|My neighbours are very friendly.
+留学|liú xué|to study abroad|她在英国留学。|Tā zài Yīngguó liúxué.|She's studying in the UK.
+楼|lóu|building; floor|我的办公室在三楼。|Wǒ de bàngōngshì zài sān lóu.|My office is on the third floor.
+绿|lǜ|green|春天到了，草都绿了。|Chūntiān dào le, cǎo dōu lǜ le.|Spring is here and the grass has turned green.
+马|mǎ|horse|你骑过马吗？|Nǐ qíguo mǎ ma?|Have you ever ridden a horse?
+马上|mǎ shàng|immediately; right away|别着急，我马上就到。|Bié zháojí, wǒ mǎshàng jiù dào.|Don't worry, I'll be right there.
+满意|mǎn yì|satisfied|你对这个房间满意吗？|Nǐ duì zhège fángjiān mǎnyì ma?|Are you happy with this room?
+帽子|mào zi|hat|外面很冷，戴上帽子吧。|Wàimian hěn lěng, dàishang màozi ba.|It's cold outside, put a hat on.
+米|mǐ|metre; rice|他一米八。|Tā yì mǐ bā.|He's 1.8 metres tall.
+面包|miàn bāo|bread|今天的面包真便宜。|Jīntiān de miànbāo zhēn piányi.|The bread is really cheap today.
+面条|miàn tiáo|noodles|我中午吃了一碗面条。|Wǒ zhōngwǔ chīle yì wǎn miàntiáo.|I had a bowl of noodles for lunch.
+明白|míng bai|to understand; clear|你明白我的意思吗？|Nǐ míngbai wǒ de yìsi ma?|Do you understand what I mean?
+拿|ná|to take; hold|帮我拿一下这个包，好吗？|Bāng wǒ ná yíxià zhège bāo, hǎo ma?|Could you hold this bag for me?
+奶奶|nǎi nai|grandma (father's mother)|奶奶今年八十岁了。|Nǎinai jīnnián bāshí suì le.|Grandma turns eighty this year.
+南|nán|south|学校在公园的南边。|Xuéxiào zài gōngyuán de nánbian.|The school is south of the park.
+难|nán|difficult|汉字难不难？|Hànzì nán bu nán?|Are Chinese characters hard?
+难过|nán guò|sad; upset|听到这个消息，我很难过。|Tīngdào zhège xiāoxi, wǒ hěn nánguò.|I was very sad to hear the news.
+年级|nián jí|grade; year (at school)|我女儿上三年级。|Wǒ nǚ'ér shàng sān niánjí.|My daughter is in Year 3.
+年轻|nián qīng|young|你看起来很年轻。|Nǐ kàn qǐlai hěn niánqīng.|You look very young.
+鸟|niǎo|bird|树上有很多小鸟。|Shù shang yǒu hěn duō xiǎo niǎo.|There are lots of little birds in the tree.
+努力|nǔ lì|to work hard; hard-working|他学习很努力。|Tā xuéxí hěn nǔlì.|He studies very hard.
+爬山|pá shān|to climb a mountain; hike|周末我们去爬山吧。|Zhōumò wǒmen qù pá shān ba.|Let's go hiking this weekend.
+盘子|pán zi|plate; dish|把盘子放在桌子上吧。|Bǎ pánzi fàng zài zhuōzi shang ba.|Put the plates on the table.
+胖|pàng|fat; chubby|这只小猫胖胖的，很可爱。|Zhè zhī xiǎo māo pàngpàng de, hěn kě'ài.|This kitten is chubby and cute.
+皮鞋|pí xié|leather shoes|这双皮鞋很舒服。|Zhè shuāng píxié hěn shūfu.|These leather shoes are very comfortable.
+啤酒|pí jiǔ|beer|来两瓶啤酒！|Lái liǎng píng píjiǔ!|Two bottles of beer, please!
+瓶子|píng zi|bottle|瓶子里没有水了。|Píngzi li méiyǒu shuǐ le.|There's no water left in the bottle.
+普通话|pǔ tōng huà|Mandarin (standard Chinese)|她的普通话说得很好。|Tā de pǔtōnghuà shuō de hěn hǎo.|She speaks Mandarin very well.
+其实|qí shí|actually; in fact|其实我不太喜欢喝咖啡。|Qíshí wǒ bú tài xǐhuan hē kāfēi.|Actually, I don't really like coffee.
+其他|qí tā|other; else|你还有其他问题吗？|Nǐ hái yǒu qítā wèntí ma?|Do you have any other questions?
+奇怪|qí guài|strange; odd|真奇怪，他今天怎么没来？|Zhēn qíguài, tā jīntiān zěnme méi lái?|That's strange — why didn't he come today?
+骑|qí|to ride (bike, horse)|我每天骑自行车上班。|Wǒ měitiān qí zìxíngchē shàngbān.|I ride my bike to work every day.
+起飞|qǐ fēi|to take off (plane)|飞机十点起飞。|Fēijī shí diǎn qǐfēi.|The plane takes off at ten.
+起来|qǐ lái|to get up; stand up|快起来，要迟到了！|Kuài qǐlai, yào chídào le!|Get up, we're going to be late!
+清楚|qīng chu|clear|我没听清楚，请再说一遍。|Wǒ méi tīng qīngchu, qǐng zài shuō yí biàn.|I didn't catch that, please say it again.
+请假|qǐng jià|to ask for leave|我明天想请假。|Wǒ míngtiān xiǎng qǐngjià.|I'd like to take tomorrow off.
+秋|qiū|autumn|北京的秋天最漂亮。|Běijīng de qiūtiān zuì piàoliang.|Autumn is Beijing's most beautiful season.
+裙子|qún zi|skirt; dress|这条裙子很漂亮。|Zhè tiáo qúnzi hěn piàoliang.|This skirt is very pretty.
+然后|rán hòu|then; after that|我们先吃饭，然后去看电影。|Wǒmen xiān chīfàn, ránhòu qù kàn diànyǐng.|We'll eat first, then go to a movie.
+热情|rè qíng|warm; enthusiastic|这里的人都很热情。|Zhèli de rén dōu hěn rèqíng.|The people here are all very warm.
+认为|rèn wéi|to think; believe|我认为这个办法很好。|Wǒ rènwéi zhège bànfǎ hěn hǎo.|I think this is a good way to do it.
+认真|rèn zhēn|serious; conscientious|她工作很认真。|Tā gōngzuò hěn rènzhēn.|She's very conscientious at work.
+容易|róng yì|easy|说汉语不太容易。|Shuō Hànyǔ bú tài róngyì.|Speaking Chinese isn't very easy.
+如果|rú guǒ|if|如果明天下雨，我们就不去了。|Rúguǒ míngtiān xià yǔ, wǒmen jiù bú qù le.|If it rains tomorrow, we won't go.
+伞|sǎn|umbrella|我忘了带伞。|Wǒ wàngle dài sǎn.|I forgot my umbrella.
+上网|shàng wǎng|to go online|我每天晚上上网看新闻。|Wǒ měitiān wǎnshang shàngwǎng kàn xīnwén.|I read the news online every evening.
+生气|shēng qì|angry|别生气了，好吗？|Bié shēngqì le, hǎo ma?|Please don't be angry, OK?
+声音|shēng yīn|sound; voice|请说话声音小一点儿。|Qǐng shuōhuà shēngyīn xiǎo yìdiǎnr.|Please speak a little more quietly.
+世界|shì jiè|world|我想去世界上很多地方旅游。|Wǒ xiǎng qù shìjiè shang hěn duō dìfang lǚyóu.|I want to travel to lots of places around the world.
+试|shì|to try|我可以试一下这件衣服吗？|Wǒ kěyǐ shì yíxià zhè jiàn yīfu ma?|Can I try this on?
+瘦|shòu|thin; slim; tight (clothes)|这条裤子我穿太瘦了。|Zhè tiáo kùzi wǒ chuān tài shòu le.|These trousers are too tight on me.
+叔叔|shū shu|uncle|叔叔，您好！|Shūshu, nín hǎo!|Hello, uncle!
+舒服|shū fu|comfortable|我今天不太舒服。|Wǒ jīntiān bú tài shūfu.|I'm not feeling great today.
+树|shù|tree|公园里有很多大树。|Gōngyuán li yǒu hěn duō dà shù.|There are lots of big trees in the park.
+数学|shù xué|maths|我女儿数学很好。|Wǒ nǚ'ér shùxué hěn hǎo.|My daughter is very good at maths.
+刷牙|shuā yá|to brush teeth|睡觉以前要刷牙。|Shuìjiào yǐqián yào shuāyá.|Brush your teeth before bed.
+双|shuāng|pair; double|我买了一双新鞋。|Wǒ mǎile yì shuāng xīn xié.|I bought a new pair of shoes.
+水平|shuǐ píng|level; standard|你的汉语水平提高了很多。|Nǐ de Hànyǔ shuǐpíng tígāole hěn duō.|Your Chinese has improved a lot.
+司机|sī jī|driver|司机，请在前面停车。|Sījī, qǐng zài qiánmian tíng chē.|Driver, please stop up ahead.
+虽然|suī rán|although|虽然很累，但是我很高兴。|Suīrán hěn lèi, dànshì wǒ hěn gāoxìng.|Although I'm tired, I'm very happy.
+太阳|tài yáng|sun|今天太阳很大。|Jīntiān tàiyáng hěn dà.|The sun is strong today.
+糖|táng|sugar; sweets|你的咖啡要放糖吗？|Nǐ de kāfēi yào fàng táng ma?|Do you want sugar in your coffee?
+特别|tè bié|especially; special|今天特别冷。|Jīntiān tèbié lěng.|It's especially cold today.
+疼|téng|painful; to hurt|我头疼。|Wǒ tóu téng.|I have a headache.
+提高|tí gāo|to improve; raise|怎么才能提高汉语水平？|Zěnme cái néng tígāo Hànyǔ shuǐpíng?|How can I improve my Chinese?
+体育|tǐ yù|sport; PE|我最喜欢上体育课。|Wǒ zuì xǐhuan shàng tǐyù kè.|PE is my favourite class.
+甜|tián|sweet|这个西瓜很甜。|Zhège xīguā hěn tián.|This watermelon is very sweet.
+条|tiáo|(measure word for long thin things)|河里有很多条鱼。|Hé li yǒu hěn duō tiáo yú.|There are lots of fish in the river.
+同事|tóng shì|colleague|他是我的同事。|Tā shì wǒ de tóngshì.|He's my colleague.
+同意|tóng yì|to agree|我同意你说的。|Wǒ tóngyì nǐ shuō de.|I agree with what you said.
+头发|tóu fa|hair (on the head)|她的头发很长。|Tā de tóufa hěn cháng.|Her hair is very long.
+突然|tū rán|suddenly|突然下起了大雨。|Tūrán xià qǐle dà yǔ.|Suddenly it started pouring.
+图书馆|tú shū guǎn|library|我在图书馆借了两本书。|Wǒ zài túshūguǎn jièle liǎng běn shū.|I borrowed two books from the library.
+腿|tuǐ|leg|爬了一天山，我的腿很疼。|Pále yì tiān shān, wǒ de tuǐ hěn téng.|After hiking all day, my legs ache.
+完成|wán chéng|to complete; finish|作业你完成了吗？|Zuòyè nǐ wánchéng le ma?|Have you finished your homework?
+碗|wǎn|bowl|我要一碗米饭。|Wǒ yào yì wǎn mǐfàn.|I'd like a bowl of rice.
+万|wàn|ten thousand|这台电脑一万块钱。|Zhè tái diànnǎo yí wàn kuài qián.|This computer costs ten thousand yuan.
+忘记|wàng jì|to forget|我忘记他的名字了。|Wǒ wàngjì tā de míngzi le.|I've forgotten his name.
+为|wèi|for; on behalf of|我真为你高兴！|Wǒ zhēn wèi nǐ gāoxìng!|I'm so happy for you!
+为了|wèi le|in order to; for|为了身体健康，我每天锻炼。|Wèile shēntǐ jiànkāng, wǒ měitiān duànliàn.|I exercise every day to stay healthy.
+位|wèi|(polite measure word for people)|请问，您几位？|Qǐngwèn, nín jǐ wèi?|How many in your party?
+文化|wén huà|culture|我想多了解中国文化。|Wǒ xiǎng duō liǎojiě Zhōngguó wénhuà.|I want to learn more about Chinese culture.
+西|xī|west|太阳从西边下去了。|Tàiyáng cóng xībian xiàqu le.|The sun has set in the west.
+习惯|xí guàn|habit; to be used to|我已经习惯了这里的生活。|Wǒ yǐjīng xíguànle zhèli de shēnghuó.|I'm used to life here now.
+洗手间|xǐ shǒu jiān|toilet; restroom|请问洗手间在哪儿？|Qǐngwèn xǐshǒujiān zài nǎr?|Excuse me, where's the toilet?
+洗澡|xǐ zǎo|to shower; bathe|我每天晚上洗澡。|Wǒ měitiān wǎnshang xǐzǎo.|I shower every evening.
+夏|xià|summer|夏天我们去海边游泳。|Xiàtiān wǒmen qù hǎibiān yóuyǒng.|In summer we go swimming at the beach.
+先|xiān|first; in advance|你先走吧，我马上来。|Nǐ xiān zǒu ba, wǒ mǎshàng lái.|You go ahead, I'll be right there.
+相信|xiāng xìn|to believe; trust|我相信你能做好。|Wǒ xiāngxìn nǐ néng zuòhǎo.|I believe you can do it.
+香蕉|xiāng jiāo|banana|香蕉多少钱一斤？|Xiāngjiāo duōshao qián yì jīn?|How much is a jin of bananas?
+向|xiàng|towards|一直向前走就到了。|Yìzhí xiàng qián zǒu jiù dào le.|Go straight ahead and you'll be there.
+像|xiàng|to resemble; be like|你长得很像你妈妈。|Nǐ zhǎng de hěn xiàng nǐ māma.|You look a lot like your mum.
+小心|xiǎo xīn|careful; be careful|小心！车来了！|Xiǎoxīn! Chē lái le!|Careful! A car's coming!
+校长|xiào zhǎng|principal; headmaster|校长在办公室等你。|Xiàozhǎng zài bàngōngshì děng nǐ.|The principal is waiting for you in the office.
+新闻|xīn wén|news|你看今天的新闻了吗？|Nǐ kàn jīntiān de xīnwén le ma?|Did you see today's news?
+新鲜|xīn xiān|fresh|这些水果很新鲜。|Zhèxiē shuǐguǒ hěn xīnxiān.|This fruit is very fresh.
+信用卡|xìn yòng kǎ|credit card|可以用信用卡吗？|Kěyǐ yòng xìnyòngkǎ ma?|Can I pay by card?
+行李箱|xíng li xiāng|suitcase|你的行李箱太重了。|Nǐ de xínglixiāng tài zhòng le.|Your suitcase is too heavy.
+熊猫|xióng māo|panda|我想去成都看熊猫。|Wǒ xiǎng qù Chéngdū kàn xióngmāo.|I want to go to Chengdu to see the pandas.
+需要|xū yào|to need|你需要帮忙吗？|Nǐ xūyào bāngmáng ma?|Do you need a hand?
+选择|xuǎn zé|to choose; choice|这两个你选择哪个？|Zhè liǎng ge nǐ xuǎnzé nǎge?|Which of these two will you choose?
+要求|yāo qiú|to require; request|老师要求我们每天写作业。|Lǎoshī yāoqiú wǒmen měitiān xiě zuòyè.|The teacher makes us do homework every day.
+爷爷|yé ye|grandpa (father's father)|爷爷每天早上去公园。|Yéye měitiān zǎoshang qù gōngyuán.|Grandpa goes to the park every morning.
+一定|yí dìng|definitely; certainly|明天你一定要来！|Míngtiān nǐ yídìng yào lái!|You must come tomorrow!
+一共|yí gòng|altogether; in total|一共多少钱？|Yígòng duōshao qián?|How much is it altogether?
+一会儿|yí huìr|a moment; a while|请等一会儿。|Qǐng děng yíhuìr.|Please wait a moment.
+一样|yí yàng|the same|我们俩的衣服一样。|Wǒmen liǎ de yīfu yíyàng.|We're wearing the same clothes.
+以后|yǐ hòu|after; later|下班以后你做什么？|Xiàbān yǐhòu nǐ zuò shénme?|What do you do after work?
+以前|yǐ qián|before; previously|以前我住在上海。|Yǐqián wǒ zhù zài Shànghǎi.|I used to live in Shanghai.
+以为|yǐ wéi|to (wrongly) think|我以为你走了。|Wǒ yǐwéi nǐ zǒu le.|I thought you'd left.
+一般|yì bān|generally; ordinary|我一般七点起床。|Wǒ yìbān qī diǎn qǐchuáng.|I usually get up at seven.
+一边|yì biān|while (doing two things)|她一边听音乐一边做饭。|Tā yìbiān tīng yīnyuè yìbiān zuò fàn.|She cooks while listening to music.
+一直|yì zhí|always; continuously; straight on|雨一直下到晚上。|Yǔ yìzhí xià dào wǎnshang.|It kept raining right into the evening.
+音乐|yīn yuè|music|你喜欢听什么音乐？|Nǐ xǐhuan tīng shénme yīnyuè?|What music do you like?
+银行|yín háng|bank|我要去银行换钱。|Wǒ yào qù yínháng huàn qián.|I need to go to the bank to change money.
+饮料|yǐn liào|drink; beverage|你想喝什么饮料？|Nǐ xiǎng hē shénme yǐnliào?|What would you like to drink?
+应该|yīng gāi|should; ought to|你应该多休息。|Nǐ yīnggāi duō xiūxi.|You should rest more.
+影响|yǐng xiǎng|to influence; effect|别影响别人休息。|Bié yǐngxiǎng biérén xiūxi.|Don't disturb other people's rest.
+用|yòng|to use|这个词怎么用？|Zhège cí zěnme yòng?|How do you use this word?
+游戏|yóu xì|game|你怎么一直玩儿电脑游戏？|Nǐ zěnme yìzhí wánr diànnǎo yóuxì?|Why do you keep playing computer games?
+有名|yǒu míng|famous|这家饭馆很有名。|Zhè jiā fànguǎn hěn yǒumíng.|This restaurant is very famous.
+又|yòu|again; both … and|你怎么又迟到了？|Nǐ zěnme yòu chídào le?|Why are you late again?
+遇到|yù dào|to run into; encounter|我在超市遇到了老师。|Wǒ zài chāoshì yùdàole lǎoshī.|I ran into my teacher at the supermarket.
+元|yuán|yuan (currency unit)|这本书三十元。|Zhè běn shū sānshí yuán.|This book is thirty yuan.
+愿意|yuàn yì|to be willing|你愿意跟我一起去吗？|Nǐ yuànyì gēn wǒ yìqǐ qù ma?|Would you be willing to come with me?
+月亮|yuè liang|moon|今天晚上的月亮很漂亮。|Jīntiān wǎnshang de yuèliang hěn piàoliang.|The moon is beautiful tonight.
+越|yuè|the more … the more (越…越…)|雨越下越大。|Yǔ yuè xià yuè dà.|The rain is getting heavier and heavier.
+云|yún|cloud|天上一片云也没有。|Tiān shang yí piàn yún yě méiyǒu.|There isn't a single cloud in the sky.
+站|zhàn|to stand; station; stop|下一站是北京站。|Xià yí zhàn shì Běijīng Zhàn.|The next stop is Beijing Station.
+张|zhāng|(measure word for flat things)|我买了两张电影票。|Wǒ mǎile liǎng zhāng diànyǐng piào.|I bought two movie tickets.
+长|zhǎng|to grow|孩子长得真快！|Háizi zhǎng de zhēn kuài!|Kids grow up so fast!
+着急|zháo jí|anxious; in a hurry|别着急，慢慢说。|Bié zháojí, mànmàn shuō.|Don't rush, take your time.
+照顾|zhào gù|to look after|谢谢你照顾我的孩子。|Xièxie nǐ zhàogù wǒ de háizi.|Thank you for looking after my child.
+照片|zhào piàn|photo|这是我们家的照片。|Zhè shì wǒmen jiā de zhàopiàn.|This is a photo of our family.
+照相机|zhào xiàng jī|camera|我的照相机是新买的。|Wǒ de zhàoxiàngjī shì xīn mǎi de.|My camera is brand new.
+只|zhī|(measure word for animals, one of a pair)|我家有两只猫。|Wǒ jiā yǒu liǎng zhī māo.|We have two cats.
+只|zhǐ|only|我只有十块钱。|Wǒ zhǐ yǒu shí kuài qián.|I only have ten yuan.
+只有|zhǐ yǒu|only (只有…才…)|只有多练习，才能说得好。|Zhǐyǒu duō liànxí, cái néng shuō de hǎo.|Only by practising a lot can you speak well.
+中间|zhōng jiān|middle; between|坐在中间的是我妈妈。|Zuò zài zhōngjiān de shì wǒ māma.|The one sitting in the middle is my mum.
+终于|zhōng yú|finally; at last|我们终于到了！|Wǒmen zhōngyú dào le!|We've finally arrived!
+种|zhǒng|kind; type|你喜欢哪种水果？|Nǐ xǐhuan nǎ zhǒng shuǐguǒ?|What kind of fruit do you like?
+重要|zhòng yào|important|这件事很重要。|Zhè jiàn shì hěn zhòngyào.|This is very important.
+周末|zhōu mò|weekend|这个周末你忙吗？|Zhège zhōumò nǐ máng ma?|Are you busy this weekend?
+主要|zhǔ yào|main; mainly|我来中国主要是为了学汉语。|Wǒ lái Zhōngguó zhǔyào shì wèile xué Hànyǔ.|I came to China mainly to learn Chinese.
+注意|zhù yì|to pay attention to|过马路要注意安全。|Guò mǎlù yào zhùyì ānquán.|Be careful when crossing the road.
+自己|zì jǐ|oneself|这是我自己做的蛋糕。|Zhè shì wǒ zìjǐ zuò de dàngāo.|I made this cake myself.
+自行车|zì xíng chē|bicycle|我的自行车被人借走了。|Wǒ de zìxíngchē bèi rén jièzǒu le.|Someone's borrowed my bike.
+总是|zǒng shì|always|他总是很晚才睡觉。|Tā zǒngshì hěn wǎn cái shuìjiào.|He always goes to bed late.
+嘴|zuǐ|mouth|张开嘴，我看看。|Zhāngkāi zuǐ, wǒ kànkan.|Open your mouth and let me have a look.
+最后|zuì hòu|last; finally|最后一个问题是什么？|Zuìhòu yí ge wèntí shì shénme?|What's the last question?
+最近|zuì jìn|recently; lately|你最近怎么样？|Nǐ zuìjìn zěnmeyàng?|How have you been lately?
+作业|zuò yè|homework|你的作业写完了吗？|Nǐ de zuòyè xiěwán le ma?|Have you finished your homework?`;
+
+const parseList = (raw, tag) => raw.trim().split("\n").map(l => {
+  const [h, p, e, xs, xp, xe] = l.split("|");
+  return { id: "b:" + h + ":" + p.replace(/\s/g, ""), h, p, e, tag, xs, xp, xe };
+});
+// HSK 3 first so new cards in "All" start with your current level
+const BASE = [...parseList(HSK3_RAW, "HSK 3"), ...parseList(HSK1_RAW, "HSK 1"), ...parseList(HSK2_RAW, "HSK 2")];
+const isBaseTag = t => /^HSK \d$/.test(t);
+const BY_H = {}; BASE.forEach(c => (BY_H[c.h] = BY_H[c.h] || []).push(c));
+/* Lesson 1 of HSK Standard Course 3 (周末你有什么打算) — checked against the book's word list */
+const DEFAULT_LESSONS = { 1: ["周末", "打算", "跟", "啊", "一直", "作业", "着急", "复习", "北方", "面包", "带", "地图", "搬", "游戏"] };
+const DEFAULT_MAP = {};
+for (const [n, ws] of Object.entries(DEFAULT_LESSONS)) ws.forEach(h => (BY_H[h] || []).forEach(c => DEFAULT_MAP[c.id] = +n));
+const LESSON_COUNT = 20;
+
+/* ---------- state ---------- */
+const DAY = 864e5;
+const INTERVALS = [0, 1, 3, 7, 14, 30, 60, 120]; // days for box 0..7
+const LS_KEY = "hsk3-flashcards-v1";
+let S = { progress: {}, custom: [], del: [], settings: { deck: "all", mode: "zh", newPer: 10, py: false, tone: true, auto: true, ex: true, exPy: true, goal: 20 }, lessons: {}, daily: {}, updatedAt: 0 };
+
+function loadLocal() {
+  try { const raw = localStorage.getItem(LS_KEY); if (raw) S = merge(S, JSON.parse(raw)); } catch (e) {}
+}
+function saveLocal() { try { localStorage.setItem(LS_KEY, JSON.stringify(S)); } catch (e) {} }
+
+function merge(a, b) {
+  if (!b || typeof b !== "object") return a;
+  const out = { progress: { ...a.progress }, custom: [], del: [], lessons: { ...(a.lessons || {}) }, daily: { ...(a.daily || {}) }, settings: { ...a.settings }, updatedAt: Math.max(a.updatedAt || 0, b.updatedAt || 0) };
+  for (const [k, v] of Object.entries(b.progress || {})) {
+    if (!out.progress[k] || (v.t || 0) > (out.progress[k].t || 0)) out.progress[k] = v;
+  }
+  for (const [k, v] of Object.entries(b.lessons || {})) {
+    if (!out.lessons[k] || (v.t || 0) > (out.lessons[k].t || 0)) out.lessons[k] = v;
+  }
+  for (const [k, v] of Object.entries(b.daily || {})) out.daily[k] = Math.max(out.daily[k] || 0, v || 0);
+  out.del = [...new Set([...(a.del || []), ...(b.del || [])])];
+  const map = new Map();
+  for (const c of [...(a.custom || []), ...(b.custom || [])]) if (c && c.id && !out.del.includes(c.id)) map.set(c.id, c);
+  out.custom = [...map.values()];
+  if ((b.updatedAt || 0) >= (a.updatedAt || 0) && b.settings) out.settings = { ...out.settings, ...b.settings };
+  if (out.progress.__reset || b.resetAt || a.resetAt) {
+    const r = Math.max(a.resetAt || 0, b.resetAt || 0);
+    out.resetAt = r;
+    for (const [k, v] of Object.entries(out.progress)) if ((v.t || 0) < r) delete out.progress[k];
+  }
+  return out;
+}
+
+const allCards = () => [...BASE, ...S.custom];
+const tags = () => [...new Set(allCards().map(c => c.tag))].sort((a, b) => (isBaseTag(b) - isBaseTag(a)) || a.localeCompare(b));
+function lessonOf(c) { const l = S.lessons[c.id]; return l ? l.n : (DEFAULT_MAP[c.id] || 0); }
+function setLesson(c, n) { S.lessons[c.id] = { n, t: Date.now() }; }
+function lessonNums() { return [...new Set(allCards().map(lessonOf).filter(Boolean))].sort((a, b) => a - b); }
+function deckCards() {
+  const d = S.settings.deck;
+  if (d === "all") return allCards();
+  if (d.startsWith("L:")) { const n = +d.slice(2); return allCards().filter(c => lessonOf(c) === n); }
+  return allCards().filter(c => c.tag === d);
+}
+
+/* ---------- cloud sync (per-person, private) ---------- */
+let cloud = null, saveTimer = null, saving = false, pending = false;
+function setSync(state, txt) {
+  document.getElementById("syncDot").className = "dot " + (state || "");
+  document.getElementById("syncTxt").textContent = txt;
+}
+function touch() { S.updatedAt = Date.now(); saveLocal(); queueCloud(); }
+function queueCloud() {
+  if (!cloud) return;
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(pushCloud, 1500);
+}
+async function pushCloud() {
+  if (!cloud) return;
+  if (saving) { pending = true; return; }
+  saving = true; setSync("busy", "Saving…");
+  try { await cloud.set(JSON.parse(JSON.stringify(S))); setSync("ok", "Synced"); }
+  catch (e) {
+    if (e && e.code === "invalid_argument") { cloud = null; setSync("", "This device"); }
+    else setSync("", "Saved on device");
+  }
+  saving = false;
+  if (pending) { pending = false; pushCloud(); }
+}
+(async function initCloud() {
+  try {
+    if (!window.claude || !window.claude.use) return;
+    const [db, user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
+    if (!db || !user) return;
+    const uid = await user.id();
+    if (!uid) return;
+    const ref = db.doc("data/users/" + uid + "/flashcards");
+    setSync("busy", "Syncing…");
+    const timer = setTimeout(() => setSync("", "Saved on device"), 10000);
+    const snap = await ref.get();
+    clearTimeout(timer);
+    if (snap.exists) { S = merge(S, snap.data()); saveLocal(); }
+    cloud = ref;
+    setSync("ok", "Synced");
+    renderAll();
+    if (!snap.exists) pushCloud();
+  } catch (e) { setSync("", "Saved on device"); }
+})();
+
+/* ---------- pinyin helpers ---------- */
+const MARKS = { a: "āáǎà", e: "ēéěè", i: "īíǐì", o: "ōóǒò", u: "ūúǔù", "ü": "ǖǘǚǜ" };
+function markSyl(b, t) {
+  b = b.replace(/u:|v/gi, "ü"); t = +t;
+  if (!t || t === 5) return b;
+  const lb = b.toLowerCase(); let idx = -1;
+  if (lb.includes("a")) idx = lb.indexOf("a");
+  else if (lb.includes("e")) idx = lb.indexOf("e");
+  else if (lb.includes("ou")) idx = lb.indexOf("o");
+  else for (let i = lb.length - 1; i >= 0; i--) if ("iouü".includes(lb[i])) { idx = i; break; }
+  if (idx < 0) return b;
+  return b.slice(0, idx) + MARKS[lb[idx]][t - 1] + b.slice(idx + 1);
+}
+function normPinyin(s) {
+  s = (s || "").trim();
+  if (/[1-5]/.test(s)) s = s.replace(/([a-zü:v]+)([1-5])/gi, (m, b, t) => markSyl(b, t) + " ");
+  return s.replace(/\s+/g, " ").trim();
+}
+function toneOf(syl) {
+  const n = syl.normalize("NFD");
+  if (/̄/.test(n)) return 1; if (/́/.test(n)) return 2;
+  if (/̌/.test(n)) return 3; if (/̀/.test(n)) return 4; return 5;
+}
+function sylls(p) { return p.split(/\s+/).filter(Boolean); }
+function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+function pinyinHTML(p) {
+  const ss = sylls(p);
+  return ss.map((s, i) => {
+    const join = i > 0 && /^[aeoāáǎàēéěèōóǒò]/i.test(s) ? "'" : "";
+    return join + `<span class="t${toneOf(s)}">${esc(s)}</span>`;
+  }).join("");
+}
+function hanziHTML(c) {
+  const chars = [...c.h].filter(ch => /\p{Script=Han}/u.test(ch));
+  const ss = sylls(c.p).map(s => s.replace(/r$/, "") ? s : s);
+  // 儿化 (e.g. 一会儿 = yí huìr) has one more char than syllables
+  let syl = sylls(c.p);
+  if (chars.length === syl.length + 1 && c.h.endsWith("儿")) syl = [...syl, syl[syl.length - 1]];
+  if (chars.length !== syl.length) return esc(c.h);
+  let i = 0;
+  return [...c.h].map(ch => /\p{Script=Han}/u.test(ch) ? `<span class="t${toneOf(syl[i++])}">${esc(ch)}</span>` : esc(ch)).join("");
+}
+function plainPinyin(p) { return sylls(p).map((s, i) => (i > 0 && /^[aeoāáǎàēéěèōóǒò]/i.test(s) ? "'" : "") + s).join(""); }
+
+/* ---------- speech ---------- */
+let zhVoice = null;
+function pickVoice() {
+  try {
+    const vs = speechSynthesis.getVoices();
+    zhVoice = vs.find(v => /zh[-_]CN/i.test(v.lang)) || vs.find(v => /^zh/i.test(v.lang)) || null;
+  } catch (e) {}
+}
+try { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; } catch (e) {}
+function say(text) {
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "zh-CN"; u.rate = 0.85;
+    if (zhVoice) u.voice = zhVoice;
+    speechSynthesis.speak(u);
+  } catch (e) { toast("Audio isn't available on this device"); }
+}
+
+/* ---------- scheduling ---------- */
+const now = () => Date.now();
+const prog = id => S.progress[id];
+function isDue(c) { const p = prog(c.id); return p && p.due <= now(); }
+function isNew(c) { return !prog(c.id); }
+function grade(c, r) {
+  const p = prog(c.id) || { b: 0, due: 0 };
+  let b = p.b;
+  if (r === 0) b = 0;
+  else if (r === 1) b = Math.max(1, b);
+  else if (r === 2) b = Math.min(INTERVALS.length - 1, b + 1);
+  else b = Math.min(INTERVALS.length - 1, b + 2);
+  let days = INTERVALS[b];
+  if (r === 1) days = Math.max(1, Math.round(INTERVALS[b] / 2));
+  const due = r === 0 ? now() : startOfDay(now() + days * DAY);
+  S.progress[c.id] = { b, due, t: now() };
+}
+function startOfDay(t) { const d = new Date(t); d.setHours(4, 0, 0, 0); return d.getTime(); }
+function previewDays(c, r) {
+  const p = prog(c.id) || { b: 0 };
+  if (r === 0) return "now";
+  let b = r === 1 ? Math.max(1, p.b) : Math.min(INTERVALS.length - 1, p.b + (r === 2 ? 1 : 2));
+  let d = INTERVALS[b]; if (r === 1) d = Math.max(1, Math.round(d / 2));
+  return d < 30 ? d + "d" : Math.round(d / 30) + "mo";
+}
+
+/* ---------- UI: tabs & settings ---------- */
+const $ = id => document.getElementById(id);
+let toastT;
+function toast(msg) { const t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("show"), 1800); }
+
+document.querySelectorAll("nav button").forEach(b => b.onclick = () => {
+  document.querySelectorAll("nav button").forEach(x => x.classList.toggle("on", x === b));
+  ["study", "browse", "lessons", "add"].forEach(t => $("tab-" + t).classList.toggle("hidden", t !== b.dataset.tab));
+  if (b.dataset.tab === "browse") renderList();
+  if (b.dataset.tab === "lessons") renderLessons();
+  window.scrollTo(0, 0);
+});
+
+function renderDecks(el) {
+  const counts = {}; allCards().forEach(c => counts[c.tag] = (counts[c.tag] || 0) + 1);
+  const lc = {}; allCards().forEach(c => { const n = lessonOf(c); if (n) lc[n] = (lc[n] || 0) + 1; });
+  const opts = [["all", "All (" + allCards().length + ")"], ...tags().map(t => [t, t + " (" + counts[t] + ")"]),
+    ...lessonNums().map(n => ["L:" + n, "Lesson " + n + " (" + lc[n] + ")"])];
+  if (S.settings.deck !== "all" && !opts.some(o => o[0] === S.settings.deck)) S.settings.deck = "all";
+  el.innerHTML = opts.map(([v, l]) => `<button class="chip${S.settings.deck === v ? " on" : ""}" data-d="${esc(v)}">${esc(l)}</button>`).join("");
+  el.querySelectorAll(".chip").forEach(b => b.onclick = () => { S.settings.deck = b.dataset.d; touch(); renderAll(); if (!$("tab-browse").classList.contains("hidden")) renderList(); });
+}
+function renderStats() {
+  const cs = deckCards();
+  $("sDue").textContent = cs.filter(isDue).length;
+  $("sNew").textContent = cs.filter(isNew).length;
+  $("sLearn").textContent = cs.filter(c => prog(c.id) && prog(c.id).b < 3).length;
+  $("sKnown").textContent = cs.filter(c => prog(c.id) && prog(c.id).b >= 3).length;
+}
+function renderSettings() {
+  document.querySelectorAll("#modes button").forEach(b => b.classList.toggle("on", b.dataset.m === S.settings.mode));
+  $("newPer").value = String(S.settings.newPer);
+  $("goalSel").value = String(S.settings.goal || 20);
+  $("tgPy").classList.toggle("on", !!S.settings.py);
+  $("tgTone").classList.toggle("on", !!S.settings.tone);
+  $("tgAuto").classList.toggle("on", !!S.settings.auto);
+  $("tgEx").classList.toggle("on", !!S.settings.ex);
+  $("tgExPy").classList.toggle("on", !!S.settings.exPy);
+  document.body.classList.toggle("notone", !S.settings.tone);
+  $("tagList").innerHTML = tags().filter(t => !isBaseTag(t)).map(t => `<option value="${esc(t)}">`).join("");
+}
+function renderAll() { renderDecks($("decks")); renderDecks($("decks2")); renderStats(); renderSettings(); renderGoal(); }
+
+document.querySelectorAll("#modes button").forEach(b => b.onclick = () => { S.settings.mode = b.dataset.m; touch(); renderSettings(); });
+$("newPer").onchange = e => { S.settings.newPer = +e.target.value; touch(); };
+$("goalSel").onchange = e => { S.settings.goal = +e.target.value; touch(); renderGoal(); };
+[["tgPy", "py"], ["tgTone", "tone"], ["tgAuto", "auto"], ["tgEx", "ex"], ["tgExPy", "exPy"]].forEach(([id, k]) => $(id).onclick = () => { S.settings[k] = !S.settings[k]; touch(); renderSettings(); });
+
+/* ---------- study session ---------- */
+let queue = [], total = 0, doneCount = 0, cur = null, flipped = false, sessionStats = { again: 0, good: 0 };
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+$("startBtn").onclick = () => {
+  const cs = deckCards();
+  const due = shuffle(cs.filter(isDue));
+  const fresh = cs.filter(isNew).slice(0, S.settings.newPer);
+  startSession([...due, ...fresh]);
+};
+$("cramBtn").onclick = () => startSession(shuffle([...deckCards()]));
+
+function startSession(cards) {
+  if (!cards.length) { toast("Nothing due — nice work! Try shuffle practice."); return; }
+  queue = cards; total = cards.length; doneCount = 0; sessionStats = { again: 0, good: 0 };
+  $("study").classList.remove("hidden"); document.body.style.overflow = "hidden";
+  nextCard();
+}
+function endSession() {
+  $("study").classList.add("hidden"); document.body.style.overflow = "";
+  try { speechSynthesis.cancel(); } catch (e) {}
+  renderStats(); renderGoal(); wState = null;
+}
+$("quit").onclick = endSession;
+
+function nextCard() {
+  $("barFill").style.width = (total ? (doneCount / total) * 100 : 0) + "%";
+  $("count").textContent = doneCount + " / " + total;
+  if (!queue.length) return showDone();
+  cur = queue.shift(); flipped = false; wState = null;
+  const fc = $("fc"); fc.style.transition = "none"; fc.classList.remove("flip"); void fc.offsetWidth; fc.style.transition = "";
+  const m = S.settings.mode, c = cur;
+  const p = prog(c.id), lvl = p ? "Level " + p.b : "New";
+  const ln = lessonOf(c), tagTxt = esc(c.tag) + (ln ? " · L" + ln : "");
+  const hzCls = [...c.h].length > 3 ? "hz sm zh" : "hz zh";
+  let front;
+  if (m === "zh") front = `<div class="${hzCls}">${hanziHTML(c)}</div>${S.settings.py ? `<div class="py">${pinyinHTML(c.p)}</div>` : ""}`;
+  else if (m === "en") front = `<div class="en big">${esc(c.e)}</div><div class="note">Say it in Chinese</div>`;
+  else if (m === "write") front = `<div class="en big" style="margin-top:14px">${esc(c.e)}</div><div class="py" style="font-size:20px">${pinyinHTML(c.p)}</div>
+    <div class="writebox"><div class="wdone zh" id="wDone"></div><div class="grid-box sm" id="wBox"></div>
+    <div class="wbtns"><button class="chip" id="wHint">💡 Hint</button><button class="chip" id="wAnim">▶ Show strokes</button></div></div>`;
+  else front = `<button class="say huge" data-say>🔊</button><div class="note">What does it mean?</div>`;
+  $("front").innerHTML = `<span class="tag">${tagTxt}</span><span class="lvl">${lvl}</span>${front}${m === "write" ? "" : `<div class="hint">Tap card to flip</div>`}`;
+  if (m === "write") startCardWriting(c);
+  $("back").innerHTML = `<span class="tag">${tagTxt}</span><span class="lvl">${lvl}</span>
+    <div class="${hzCls}" style="margin-top:14px">${hanziHTML(c)}</div><div class="py">${pinyinHTML(c.p)}</div><div class="en">${esc(c.e)}</div>
+    <button class="say" data-say>🔊</button>${exampleHTML(c)}`;
+  $("rate").innerHTML = `<button class="showbtn" id="showBtn">Show answer</button>`;
+  $("showBtn").onclick = flip;
+  if (m === "listen" && S.settings.auto) say(c.h);
+}
+function exampleHTML(c) {
+  if (!S.settings.ex || !c.xs) return "";
+  const hl = c.xs.includes(c.h) ? esc(c.xs).split(esc(c.h)).join(`<b>${esc(c.h)}</b>`) : esc(c.xs);
+  return `<div class="ex"><div style="flex:1"><div class="exs zh">${hl}</div>
+    ${S.settings.exPy && c.xp ? `<div class="exp">${esc(c.xp)}</div>` : ""}<div class="exe">${esc(c.xe || "")}</div></div>
+    <button class="mini" data-say-ex aria-label="Play sentence">🔊</button></div>`;
+}
+function flip() {
+  if (flipped) return;
+  flipped = true; $("fc").classList.add("flip");
+  if (S.settings.auto && S.settings.mode !== "listen") say(cur.h);
+  const labels = ["Again", "Hard", "Good", "Easy"], cls = ["again", "hard", "good", "easy"];
+  $("rate").innerHTML = labels.map((l, i) => `<button class="r-${cls[i]}" data-r="${i}">${l}<small>${previewDays(cur, i)}</small></button>`).join("");
+  $("rate").querySelectorAll("button").forEach(b => b.onclick = () => rate(+b.dataset.r));
+}
+function rate(r) {
+  grade(cur, r);
+  if (r === 0) { sessionStats.again++; queue.splice(Math.min(3, queue.length), 0, cur); }
+  else { sessionStats.good++; doneCount++; bumpDaily(); }
+  touch(); nextCard();
+}
+$("stage").addEventListener("click", e => {
+  if (e.target.closest("[data-say-ex]")) { e.stopPropagation(); say(cur.xs); return; }
+  const s = e.target.closest("[data-say]");
+  if (s) { e.stopPropagation(); say(cur.h); return; }
+  if (e.target.closest(".writebox")) return;
+  if (e.target.closest(".fc")) flip();
+});
+document.addEventListener("keydown", e => {
+  if ($("study").classList.contains("hidden")) return;
+  if (e.key === " " || e.key === "Enter") { e.preventDefault(); flipped ? rate(2) : flip(); }
+  else if (flipped && "1234".includes(e.key)) rate(+e.key - 1);
+  else if (e.key === "Escape") endSession();
+});
+function showDone() {
+  $("barFill").style.width = "100%";
+  const fc = $("fc"); fc.classList.remove("flip");
+  $("front").innerHTML = `<div class="done"><div class="big">🎉</div><div class="en big" style="margin-top:10px">Session complete</div>
+    <div class="note">${total} cards · ${sessionStats.again} slip${sessionStats.again === 1 ? "" : "s"} along the way</div>
+    <div class="note zh" style="font-size:18px;margin-top:14px">加油！</div></div>`;
+  $("rate").innerHTML = `<button class="showbtn" id="doneBtn">Done</button>`;
+  $("doneBtn").onclick = endSession;
+}
+
+/* ---------- browse ---------- */
+let listLimit = 80;
+$("q").oninput = () => { listLimit = 80; renderList(); };
+function renderList() {
+  const q = $("q").value.trim().toLowerCase();
+  const strip = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s/g, "").toLowerCase();
+  let cs = deckCards();
+  if (q) cs = cs.filter(c => c.h.includes(q) || strip(c.p).includes(strip(q)) || c.e.toLowerCase().includes(q));
+  const shown = cs.slice(0, listLimit);
+  $("list").innerHTML = shown.length ? shown.map(c => {
+    const b = prog(c.id) ? prog(c.id).b : -1;
+    const pips = Array.from({ length: 5 }, (_, i) => `<i class="${i < Math.min(b, 5) || (b >= 0 && i === 0) ? "f" : ""}"></i>`).join("");
+    return `<div class="item"><div class="h zh">${hanziHTML(c)}</div>
+      <div class="m"><div>${pinyinHTML(c.p)}${lessonOf(c) ? `<span class="badge">L${lessonOf(c)}</span>` : ""}</div><div>${esc(c.e)}</div></div>
+      <div class="pip" title="${b < 0 ? "New" : "Level " + b}">${pips}</div>
+      <button class="mini" data-say="${esc(c.h)}">🔊</button>
+      <button class="mini" data-write="${esc(c.id)}" aria-label="Writing practice">✍️</button>
+      ${c.id.startsWith("c:") ? `<button class="del" data-del="${esc(c.id)}" aria-label="Delete">×</button>` : ""}</div>`;
+  }).join("") : `<div class="item muted">No matching cards.</div>`;
+  $("listMore").innerHTML = cs.length > listLimit ? `<button class="chip" id="moreBtn">Show more (${cs.length - listLimit})</button>` : `${cs.length} cards`;
+  const mb = $("moreBtn"); if (mb) mb.onclick = () => { listLimit += 120; renderList(); };
+}
+$("list").addEventListener("click", e => {
+  const s = e.target.closest("[data-say]"); if (s) return say(s.dataset.say);
+  const w = e.target.closest("[data-write]"); if (w) { const c = allCards().find(x => x.id === w.dataset.write); if (c) openWriting(c); return; }
+  const d = e.target.closest("[data-del]");
+  if (d) {
+    const id = d.dataset.del;
+    if (d.dataset.armed) {
+      S.custom = S.custom.filter(c => c.id !== id); S.del.push(id); delete S.progress[id];
+      if (!tags().includes(S.settings.deck) && S.settings.deck !== "all") S.settings.deck = "all";
+      touch(); renderAll(); renderList(); toast("Card deleted");
+    } else { d.dataset.armed = "1"; d.textContent = "Delete?"; d.style.width = "auto"; d.style.fontSize = "12px"; }
+  }
+});
+
+/* ---------- add ---------- */
+$("aP").oninput = () => { const v = normPinyin($("aP").value); $("aPrev").innerHTML = v ? pinyinHTML(v) : ""; };
+function addCard(h, p, e, tag) {
+  h = (h || "").trim(); e = (e || "").trim(); p = normPinyin(p); tag = (tag || "").trim() || "My cards";
+  if (!h || !e) return false;
+  S.custom.push({ id: "c:" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), h, p, e, tag });
+  return true;
+}
+$("addBtn").onclick = () => {
+  if (!addCard($("aH").value, $("aP").value, $("aE").value, $("aT").value)) return toast("Add the 汉字 and English at least");
+  ["aH", "aP", "aE"].forEach(i => $(i).value = ""); $("aPrev").innerHTML = "";
+  touch(); renderAll(); toast("Card added"); $("aH").focus();
+};
+$("bulkBtn").onclick = () => {
+  let n = 0, bad = 0;
+  $("bulk").value.split("\n").map(l => l.trim()).filter(Boolean).forEach(l => {
+    const parts = l.split(/\s*[|｜\t]\s*/);
+    if (parts.length >= 3 && addCard(parts[0], parts[1], parts.slice(2).join(", "), $("bT").value)) n++; else bad++;
+  });
+  if (!n) return toast("Use one card per line: 汉字 | pinyin | English");
+  $("bulk").value = ""; touch(); renderAll();
+  toast(`Added ${n} card${n === 1 ? "" : "s"}` + (bad ? ` · ${bad} line${bad === 1 ? "" : "s"} skipped` : ""));
+};
+$("copyBtn").onclick = async () => {
+  const txt = S.custom.map(c => `${c.h} | ${plainPinyin(c.p)} | ${c.e} | ${c.tag}`).join("\n");
+  if (!txt) return toast("You haven't added any cards yet");
+  try { await navigator.clipboard.writeText(txt); toast("Copied " + S.custom.length + " cards"); }
+  catch (e) { toast("Couldn't copy on this device"); }
+};
+$("resetBtn").onclick = () => $("resetConfirm").classList.toggle("hidden");
+$("resetYes").onclick = () => { S.progress = {}; S.resetAt = Date.now(); touch(); renderAll(); $("resetConfirm").classList.add("hidden"); toast("Progress reset"); };
+
+/* ---------- lessons ---------- */
+let lesN = 1, lesOnly = false, lesLimit = 80;
+$("lesSel").innerHTML = Array.from({ length: LESSON_COUNT }, (_, i) => `<option value="${i + 1}">Lesson ${i + 1}${i === 0 ? " · 周末你有什么打算" : ""}</option>`).join("");
+$("lesSel").onchange = e => { lesN = +e.target.value; lesLimit = 80; $("lesMsg").textContent = ""; renderLessons(); };
+$("lesQ").oninput = () => { lesLimit = 80; renderLessons(); };
+$("lesOnly").onclick = () => { lesOnly = !lesOnly; renderLessons(); };
+function renderLessons() {
+  $("lesSel").value = String(lesN);
+  const inLes = allCards().filter(c => lessonOf(c) === lesN);
+  $("lesCount").textContent = inLes.length + " word" + (inLes.length === 1 ? "" : "s");
+  $("lesOnly").classList.toggle("on", lesOnly);
+  const q = $("lesQ").value.trim().toLowerCase();
+  const strip = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[\s']/g, "").toLowerCase();
+  let cs = lesOnly ? inLes : allCards();
+  if (q) cs = cs.filter(c => c.h.includes(q) || strip(c.p).includes(strip(q)) || c.e.toLowerCase().includes(q));
+  else if (!lesOnly) cs = [...inLes, ...cs.filter(c => lessonOf(c) !== lesN)];
+  const shown = cs.slice(0, lesLimit);
+  $("lesList").innerHTML = shown.length ? shown.map(c => {
+    const n = lessonOf(c), on = n === lesN;
+    return `<div class="item"><button class="tick${on ? " on" : ""}" data-tick="${esc(c.id)}">${on ? "✓" : ""}</button>
+      <div class="h zh">${hanziHTML(c)}</div>
+      <div class="m"><div>${pinyinHTML(c.p)}${n && !on ? `<span class="badge">L${n}</span>` : ""}</div><div>${esc(c.e)}</div></div></div>`;
+  }).join("") : `<div class="item muted">${lesOnly ? "No words in this lesson yet." : "No matching words."}</div>`;
+  $("lesMore").innerHTML = cs.length > lesLimit ? `<button class="chip" id="lesMoreBtn">Show more (${cs.length - lesLimit})</button>` : "";
+  const mb = $("lesMoreBtn"); if (mb) mb.onclick = () => { lesLimit += 120; renderLessons(); };
+}
+$("lesList").addEventListener("click", e => {
+  const t = e.target.closest("[data-tick]"); if (!t) return;
+  const c = allCards().find(x => x.id === t.dataset.tick); if (!c) return;
+  setLesson(c, lessonOf(c) === lesN ? 0 : lesN);
+  touch(); renderAll(); renderLessons();
+});
+$("lesMatch").onclick = () => {
+  const toks = [...new Set($("lesPaste").value.split(/[^\p{Script=Han}]+/u).filter(Boolean))];
+  if (!toks.length) return toast("Type or paste some 汉字 first");
+  const all = allCards(), hit = [], miss = [];
+  toks.forEach(t => { const m = all.filter(c => c.h === t); if (m.length) { m.forEach(c => setLesson(c, lesN)); hit.push(t); } else miss.push(t); });
+  touch(); renderAll(); renderLessons();
+  $("lesMsg").innerHTML = (hit.length ? `Added ${hit.length} word${hit.length === 1 ? "" : "s"} to Lesson ${lesN}. ` : "") +
+    (miss.length ? `Not in the word list: <span class="zh">${esc(miss.join("、"))}</span>. Add them as your own cards in the Add tab and put them in this lesson's deck.` : "");
+  if (hit.length) $("lesPaste").value = "";
+};
+
+/* ---------- daily goal & streak ---------- */
+function dayKey(t) { const d = new Date(t); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+function bumpDaily() {
+  const k = dayKey(Date.now()), g = S.settings.goal || 20, before = S.daily[k] || 0;
+  S.daily[k] = before + 1;
+  if (before < g && S.daily[k] >= g) setTimeout(() => toast("🎯 Daily goal reached! 🔥 " + streak() + "-day streak"), 50);
+}
+function streak() {
+  const g = S.settings.goal || 20; let n = 0, t = Date.now();
+  if ((S.daily[dayKey(t)] || 0) < g) t -= DAY; // today not finished yet: streak is still alive from yesterday
+  while ((S.daily[dayKey(t)] || 0) >= g) { n++; t -= DAY; }
+  return n;
+}
+function renderGoal() {
+  const g = S.settings.goal || 20, today = S.daily[dayKey(Date.now())] || 0;
+  $("goalTxt").textContent = today + " / " + g;
+  $("ringFill").style.strokeDashoffset = String(169.6 * (1 - Math.min(1, today / g)));
+  const st = streak();
+  $("streakTxt").textContent = (st ? "🔥 " : "") + st;
+  let w = "";
+  for (let i = 6; i >= 0; i--) {
+    const v = S.daily[dayKey(Date.now() - i * DAY)] || 0;
+    w += `<i class="${v >= g ? "f" : v ? "p" : ""}${i === 0 ? " t" : ""}" title="${v} cards"></i>`;
+  }
+  $("week").innerHTML = w;
+}
+
+/* ---------- writing (stroke data: Make Me a Hanzi via hanzi-writer-data, Arphic Public License) ---------- */
+const shardCache = {};
+function loadShard(ch) {
+  const n = ch.codePointAt(0) % 128;
+  if (!shardCache[n]) shardCache[n] = fetch("strokes/s" + n + ".json").then(r => { if (!r.ok) throw new Error("load"); return r.json(); })
+    .catch(e => { delete shardCache[n]; throw e; });
+  return shardCache[n];
+}
+function charLoader(ch, onLoad, onErr) { loadShard(ch).then(d => d[ch] ? onLoad(d[ch]) : onErr(new Error("no data"))).catch(onErr); }
+const isHan = ch => /\p{Script=Han}/u.test(ch);
+function cssVar(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim() || "#888"; }
+function makeWriter(el, ch, size, opts) {
+  el.innerHTML = "";
+  if (!window.HanziWriter) { el.innerHTML = `<div class="muted" style="padding:80px 10px">Writing practice couldn't load.</div>`; return null; }
+  return HanziWriter.create(el, ch, Object.assign({
+    width: size, height: size, padding: 14, charDataLoader: charLoader,
+    strokeColor: cssVar("--ink"), outlineColor: cssVar("--line"), drawingColor: cssVar("--accent"),
+    highlightColor: cssVar("--t3"), drawingWidth: 22, strokeAnimationSpeed: 1.2, delayBetweenStrokes: 180,
+    onLoadCharDataError: () => { el.innerHTML = `<div class="muted" style="padding:80px 10px">No stroke data for this character.</div>`; }
+  }, opts));
+}
+
+// inside a study session ("Write" mode)
+let wState = null;
+function startCardWriting(c) {
+  const chars = [...c.h].filter(isHan);
+  wState = { c, chars, i: 0, writer: null };
+  nextWriteChar();
+  $("wHint").onclick = () => { if (wState && wState.writer) wState.writer.showOutline(); };
+  $("wAnim").onclick = () => { const w = wState; if (w && w.writer) { w.writer.cancelQuiz(); w.writer.animateCharacter({ onComplete: () => { if (wState === w) { w.writer.hideCharacter(); nextWriteCharRetry(w); } } }); } };
+}
+function renderWDone() {
+  const w = wState; if (!w) return;
+  $("wDone").innerHTML = w.chars.map((ch, i) => i < w.i ? esc(ch) : `<span class="todo">${i === w.i ? "＿" : "·"}</span>`).join("");
+}
+function nextWriteChar() {
+  const w = wState; if (!w) return; renderWDone();
+  if (w.i >= w.chars.length) {
+    $("wBox").innerHTML = `<div style="padding-top:70px;font-size:40px">✅</div>`;
+    setTimeout(() => { if (wState === w && !flipped) flip(); }, 700);
+    return;
+  }
+  w.writer = makeWriter($("wBox"), w.chars[w.i], 200, { showCharacter: false, showOutline: false });
+  if (!w.writer) return;
+  w.writer.quiz({
+    showHintAfterMisses: 3,
+    onComplete: () => { if (wState !== w) return; w.i++; setTimeout(() => { if (wState === w) nextWriteChar(); }, 450); }
+  });
+}
+
+function nextWriteCharRetry(w) { if (wState === w && !flipped) nextWriteChar(); }
+
+// standalone practice from the Words tab
+let wm = null;
+function openWriting(c) {
+  const chars = [...c.h].filter(isHan);
+  if (!chars.length) return toast("No Chinese characters to practise");
+  wm = { c, chars, i: 0, writer: null };
+  $("wmWord").innerHTML = hanziHTML(c); $("wmPy").innerHTML = pinyinHTML(c.p); $("wmEn").textContent = c.e;
+  $("writeModal").classList.remove("hidden"); document.body.style.overflow = "hidden";
+  renderWmChars(); wmShow("anim");
+}
+function renderWmChars() {
+  $("wmChars").innerHTML = wm.chars.length > 1 ? wm.chars.map((ch, i) => `<button class="chip zh${i === wm.i ? " on" : ""}" data-i="${i}" style="font-size:20px">${esc(ch)}</button>`).join("") : "";
+  $("wmChars").querySelectorAll("button").forEach(b => b.onclick = () => { wm.i = +b.dataset.i; renderWmChars(); wmShow("anim"); });
+}
+function wmShow(kind) {
+  const ch = wm.chars[wm.i];
+  if (kind === "anim") {
+    wm.writer = makeWriter($("wmBox"), ch, 240, { showCharacter: false, showOutline: true });
+    if (wm.writer) wm.writer.animateCharacter();
+    $("wmMsg").textContent = "Watch the stroke order";
+    return;
+  }
+  const test = kind === "test";
+  wm.writer = makeWriter($("wmBox"), ch, 240, { showCharacter: false, showOutline: !test });
+  if (!wm.writer) return;
+  let miss = 0;
+  $("wmMsg").textContent = test ? "Write it from memory — a hint appears after 3 misses" : "Trace each stroke in order";
+  const me = wm;
+  wm.writer.quiz({
+    showHintAfterMisses: test ? 3 : 1, onMistake: () => miss++,
+    onComplete: () => {
+      if (wm !== me) return;
+      const more = wm.i < wm.chars.length - 1;
+      $("wmMsg").textContent = (miss ? `Done — ${miss} slip${miss === 1 ? "" : "s"}.` : "Perfect! 🎉") + (more ? " Next character…" : "");
+      if (more) setTimeout(() => { if (wm === me) { wm.i++; renderWmChars(); wmShow(kind); } }, 1100);
+    }
+  });
+}
+$("wmAnim").onclick = () => wmShow("anim");
+$("wmTrace").onclick = () => wmShow("trace");
+$("wmTest").onclick = () => wmShow("test");
+$("wmClose").onclick = () => { $("writeModal").classList.add("hidden"); document.body.style.overflow = ""; $("wmBox").innerHTML = ""; wm = null; };
+
+/* ---------- boot ---------- */
+loadLocal();
+renderAll();
+</script>
+</body>
+</html>
